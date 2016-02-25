@@ -15,7 +15,7 @@
      ]
     },
     {
-     "name": "HCI",
+     "name": "Human-Computer Interaction",
      "children": [
       {"name": "Artificial Intelligence", "size": 2138},
       {"name": "Affective Computing", "size": 3824},
