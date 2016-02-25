@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.image {
+  display:inline-block;
+}
+
+</style>
+<body>
+<h2> ANTON FROM </h2>
+<div id="inputField">
+	<input	name="Field"
+			id="Field"
+			type="text"
+			value=""
+	/>
+</div>
+<div id="button">
+	<input	name="Button"
+			type="button"
+			value="Fetch!"
+			onclick="fetchData()"
+	/>
+</div>
+<p id="space"></p>
+<p id="space2"></p>
+
+<!-- Loading stuff -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="mediawiki-js-master/MediawikiJS.js"></script>
+
+<script>
+
+var bubbles = [];
+
+function fetchData() {
+	var text = document.getElementById("Field").value;
+	
+	// These are all the different things we can ask wikipedia about for the prop:
+	// 'text|langlinks|categories|links|templates|images|
+	//  externallinks|sections|revid|displaytitle|iwlinks|properties'
+	
+	var mwjs = new MediaWikiJS('https://en.wikipedia.org');
+	
+	mwjs.send({action: 'parse', page: text, prop: 'sections'},
+		function (data) {
+			'use strict';
+			var title = 'null';						// Set default value
+			var see_also_index = 'Not found';		// Set default value
+			var see_also_byteoffset = 0;			// Set default value
+			var pageid = 'null';					// Set default value
+			
+			// Extract the array and find the "See also" section number
+			var sections_array = data.parse.sections;
+			var i = 0, LENGTH = sections_array.length;
+			while (i < LENGTH) {
+				if (sections_array[i].line == 'See also') {
+					title = data.parse.title;
+					see_also_index = sections_array[i].index;
+					see_also_byteoffset = sections_array[i].byteoffset;
+					pageid = data.parse.pageid;
+					break;
+				}
+				i += 1;
+			}
+			// document.getElementById("space").innerHTML = see_also_index;
+
+			// If section do not exist, print error message
+			if (see_also_index == 'Not found') {
+				document.getElementById("space").innerHTML = 'This topic do not have a "See Also" section!';
+			}
+			else {		// If section exists, do second data fetch
+				mwjs.send({action: 'parse', page: text, section: see_also_index, prop: 'links'},
+					function (data) {
+						'use strict';
+						
+						// Clean all links and store in array
+						var link_array = [];
+						i = 0;
+						LENGTH = data.parse.links.length;
+						while (i < LENGTH) {
+							link_array.push(data.parse.links[i]['*']);
+							i += 1;
+						}
+						
+						var bubble = {name: title, id: pageid, size: see_also_byteoffset, links: link_array};
+						
+						// document.getElementById("space2").innerHTML = JSON.stringify(bubble);
+						// console.log(bubble);
+						bubbles.push(bubble);
+					}
+				);
+			}
+		}
+	);
+}
+
+console.log(bubbles);
+
+</script>
+
+</body>
+
+</html>
