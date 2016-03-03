@@ -82,6 +82,7 @@ var links = json.children.map(function(d){
   return {"source": 0, "target": nodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1};
 })
 
+
 var width = 960,
     height = 500;
 
@@ -95,7 +96,7 @@ var force = d3.layout.force()
     .charge(-100)
     .size([width, height]);
 
-//d3.json("graphFile.json", function(json) {
+
   force
       .nodes(nodes)
       .links(links)
@@ -105,7 +106,8 @@ var force = d3.layout.force()
       .data(links)
     .enter().append("line")
       .attr("class", "link")
-    .style("stroke-width", function(d) { return Math.sqrt(d.weight); });
+    .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
+    .style("stroke", "black");
 
   var node = svg.selectAll(".node")
       .data(nodes)
