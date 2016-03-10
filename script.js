@@ -74,34 +74,62 @@ function fetchData(text, callback) {
 
             var json = {"nodes": nodes, "links": links};
 
-            callback(json);
+            callback(nodes);
             
           }
-        );
+          );
       }
     }
-  );
+    );
 }
 
-function paintNetwork(json){
+var force = d3.layout.force()
+.gravity(.05)
+.distance(100)
+.charge(-100)
+.size([width, height]);
 
-  var nodes = json.nodes;
+var nodes = [];
+var links = [];
 
-  var links = json.links;
+function paintNetwork(newNodes){
+  if(nodes.length == 0){
+    for(key in newNodes){
+      nodes.push(newNodes[key]);
+    }
 
-  var force = d3.layout.force()
-  .gravity(.05)
-  .distance(100)
-  .charge(-100)
-  .size([width, height]);
+    var newlinks = nodes.map(function(d){
+      return {"source": 0, "target": nodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1}
+    });
+    for(key in newlinks){
+      links.push(newlinks[key]);
+    }
+  }else{
+    var nodeLength = nodes.length;
+    var newSource = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
+    console.log("newSource: "+newSource);
 
+    newNodes.shift();
+
+    for(key in newNodes){
+      nodes.push(newNodes[key]);
+    }
+    var newlinks = newNodes.map(function(d, i){
+      return {"source": newSource, "target": nodeLength + i, "weight": 1 }
+    });
+
+    for(key in newlinks){
+      links.push(newlinks[key]);
+    }
+  }
+
+  console.log(nodes);
+  //links.push(json.links);
 
   force
   .nodes(nodes)
   .links(links)
   .start();
-
-
 
   var link = svg.selectAll(".link")
   .data(links)
