@@ -73,7 +73,7 @@ circle.child {
 	<input	name="Button"
 			type="button"
 			value="Fetch!"
-			onclick="fetchData()"
+			onclick="makeGraph()"
 	/>
 </div>
 <p id="space"></p>
@@ -95,13 +95,16 @@ var svg = d3.select("body").append("svg")
 
 var bubbles = [];
 
-function fetchData(fetchWord) {
-	var text;
-	if(!fetchWord){
-		text = document.getElementById("Field").value;
-	}else{
-		text = fetchWord;
-	}
+function makeGraph(){
+	var text = document.getElementById("Field").value;
+	var bubble = fetchData(text, paintNetwork);
+
+	
+	
+}
+
+function fetchData(text, callback) {
+	
 	
 	// These are all the different things we can ask wikipedia about for the prop:
 	// 'text|langlinks|categories|links|templates|images|
@@ -135,6 +138,7 @@ function fetchData(fetchWord) {
 			// If section do not exist, print error message
 			if (see_also_index == 'Not found') {
 				document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
+				return null;
 			}
 			else {		// If section exists, do second data fetch
 				mwjs.send({action: 'parse', page: text, section: see_also_index, prop: 'links'},
@@ -152,7 +156,8 @@ function fetchData(fetchWord) {
 						
 						var bubble = {"name": title, "id": pageid, "size": see_also_byteoffset, "children": link_array};
 						//console.log(bubble);
-						paintNetwork(bubble);
+						callback(bubble);
+						//return bubble;
 						
 					}
 				);
