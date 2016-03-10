@@ -86,10 +86,22 @@ circle.child {
 
 <script>
 
+var width = 960,
+height = 500;
+
+var svg = d3.select("body").append("svg")
+.attr("width", width)
+.attr("height", height);
+
 var bubbles = [];
 
-function fetchData() {
-	var text = document.getElementById("Field").value;
+function fetchData(fetchWord) {
+	var text;
+	if(!fetchWord){
+		text = document.getElementById("Field").value;
+	}else{
+		text = fetchWord;
+	}
 	
 	// These are all the different things we can ask wikipedia about for the prop:
 	// 'text|langlinks|categories|links|templates|images|
@@ -122,7 +134,7 @@ function fetchData() {
 
 			// If section do not exist, print error message
 			if (see_also_index == 'Not found') {
-				document.getElementById("space").innerHTML = 'This topic do not have a "See Also" section!';
+				document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
 			}
 			else {		// If section exists, do second data fetch
 				mwjs.send({action: 'parse', page: text, section: see_also_index, prop: 'links'},
