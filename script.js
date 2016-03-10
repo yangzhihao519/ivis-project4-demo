@@ -162,26 +162,6 @@ function paintNetwork(newNodes){
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   });
-
-  /*setTimeout(function() {
-    console.log("trying to remove now!");
-  //nodes.splice(1, 1); // remove b
-  //links.shift(); // remove a-b
-  //links.pop(); // remove b-c
-  start();
-}, 3000);
-
-  function start() {
-  link = link.data(force.links(), function(d) { return d.source.id + "-" + d.target.id; });
-  link.enter().insert("line", ".node").attr("class", "link");
-  link.exit().remove();
-
-  node = node.data(force.nodes(), function(d) { return d.id;});
-  node.enter().append("circle").attr("class", function(d) { return "node " + d.id; }).attr("r", 8);
-  node.exit().remove();
-
-  force.start();
-}*/
 }
 
 function switchNode(){
