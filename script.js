@@ -62,10 +62,19 @@ function fetchData(text, callback) {
               i += 1;
             }
             
-            var bubble = {"name": title, "id": pageid, "size": see_also_byteoffset, "children": link_array};
-            //console.log(bubble);
-            callback(bubble);
-            //return bubble;
+
+            var nodes = [{"name": title}];
+            link_array.forEach(function(d){
+              nodes.push({"name": d.name})
+            });
+
+            var links = link_array.map(function(d){
+              return {"source": 0, "target": nodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1}
+            });
+
+            var json = {"nodes": nodes, "links": links};
+
+            callback(json);
             
           }
         );
@@ -76,14 +85,9 @@ function fetchData(text, callback) {
 
 function paintNetwork(json){
 
-  var nodes = [{"name": json.name, "group": 1}];
-  json.children.forEach(function(d){
-    nodes.push({"name": d.name, "group": 2})
-  });
+  var nodes = json.nodes;
 
-  var links = json.children.map(function(d){
-    return {"source": 0, "target": nodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1};
-  })
+  var links = json.links;
 
   var force = d3.layout.force()
   .gravity(.05)
@@ -96,6 +100,8 @@ function paintNetwork(json){
   .nodes(nodes)
   .links(links)
   .start();
+
+
 
   var link = svg.selectAll(".link")
   .data(links)
@@ -128,6 +134,26 @@ function paintNetwork(json){
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   });
+
+  /*setTimeout(function() {
+    console.log("trying to remove now!");
+  //nodes.splice(1, 1); // remove b
+  //links.shift(); // remove a-b
+  //links.pop(); // remove b-c
+  start();
+}, 3000);
+
+  function start() {
+  link = link.data(force.links(), function(d) { return d.source.id + "-" + d.target.id; });
+  link.enter().insert("line", ".node").attr("class", "link");
+  link.exit().remove();
+
+  node = node.data(force.nodes(), function(d) { return d.id;});
+  node.enter().append("circle").attr("class", function(d) { return "node " + d.id; }).attr("r", 8);
+  node.exit().remove();
+
+  force.start();
+}*/
 }
 
 function switchNode(){
