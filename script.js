@@ -63,25 +63,26 @@ function fetchData(text, callback) {
             }
             
 
-            var nodes = [{"name": title}];
+            var newNodes = [{"name": title}];
             link_array.forEach(function(d){
-              nodes.push({"name": d.name})
+              newNodes.push({"name": d.name})
             });
 
-            var links = link_array.map(function(d){
-              return {"source": 0, "target": nodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1}
+            var newLinks = link_array.map(function(d){
+              return {"source": 0, "target": newNodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1}
             });
 
-            var json = {"nodes": nodes, "links": links};
+            var json = {"nodes": newNodes, "links": newLinks};
 
-            callback(nodes);
-            
+
+            callback(newNodes);            
           }
           );
       }
     }
     );
 }
+
 
 var force = d3.layout.force()
 .gravity(.05)
@@ -124,7 +125,6 @@ function paintNetwork(newNodes){
   }
 
   console.log(nodes);
-  //links.push(json.links);
 
   force
   .nodes(nodes)
@@ -165,7 +165,7 @@ function paintNetwork(newNodes){
 }
 
 function switchNode(){
-  console.log(this.parentNode);
+  //console.log(this.parentNode);
   d3.selectAll(this.parentNode.children).remove();
   fetchData(d3.select(this).text(), paintNetwork);
 }
