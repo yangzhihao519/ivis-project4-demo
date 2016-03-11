@@ -80,9 +80,10 @@ circle.child {
 <p id="space2"></p>
 
 <!-- Loading stuff -->
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="//d3js.org/d3.v3.min.js"></script>
 <script src="mediawiki-js-master/MediawikiJS.js"></script>
 <script src="script.js"></script>
+<script src="wiki.js"></script>
 
 <script>
 
@@ -154,6 +155,7 @@ function fetchData(fetchWord) {
 						//console.log(bubble);
 						paintNetwork(bubble);
 						
+						fetchIntro(text);
 					}
 				);
 			}
