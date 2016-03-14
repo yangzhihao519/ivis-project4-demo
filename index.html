@@ -1,93 +1,31 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
+<link rel="stylesheet" href="style.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-body {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-.image {
-  display:inline-block;
-}
-
-.source{
-	fill: #abc;
-	r: 15;
-}
-
-text {
-  font-size: 11px;
-  pointer-events: none;
-}
-
-text.parent {
-  fill: #1f77b4;
-}
-
-circle {
-  fill: #cba;
-  stroke: #999;
-  pointer-events: all;
-}
-
-circle.parent {
-  fill: #1f77b4;
-  fill-opacity: .1;
-  stroke: steelblue;
-}
-
-circle.parent:hover {
-  stroke: #ff7f0e;
-  stroke-width: .5px;
-}
-
-circle.child {
-  pointer-events: none;
-}
-
-</style>
 <body>
-<h1> WikiPedro </h1>
-<div id="inputField">
-	<input	name="Field"
-			id="Field"
-			type="text"
-			value=""
-	/>
-</div>
-<div id="button">
-	<input	name="Button"
-			type="button"
-			value="Fetch!"
-			onclick="makeGraph()"
-	/>
-</div>
-<p id="space"></p>
-<p id="space2"></p>
+  <div class="col-md-3" id="searchSidebar">
+    <h1> WikiPedro </h1>
+    <div class="input-group" id="inputField">
+      <input type="text"  class="form-control" name="Field" id="Field" value="">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default" onclick="makeGraph()">Fetch</button>
+      </div>
+    </div>
+    <p id="space"></p>
+    <p id="space2"></p>
+  </div>
+  <div class="col-md-9" id="displayGraph">
+  </div>
 
 <!-- Loading stuff -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="mediawiki-js-master/MediawikiJS.js"></script>
 <script src="script.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 </body>
 
