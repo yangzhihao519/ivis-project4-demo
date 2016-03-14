@@ -12,8 +12,11 @@ var force = d3.layout.force()
               .charge(-100)
               .size([width, height]);
 
+var g = svg.append("g");
+
 var nodes = [];
 var links = [];
+var linkedByIndex = {};
 
 // functions
 function makeGraph(){
@@ -93,7 +96,9 @@ function paintNetwork(newNodes){
     }
 
     var newlinks = nodes.map(function(d){
-      return {"source": 0, "target": nodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1}
+      var targetIndex = nodes.map(function(n){return n.name}).indexOf(d.name);
+      linkedByIndex["0," + targetIndex] = true;
+      return {"source": 0, "target": targetIndex, "weight": 1}
     });
     for(key in newlinks){
       links.push(newlinks[key]);
@@ -101,15 +106,15 @@ function paintNetwork(newNodes){
     nodes[0].source = true;
   }else{
     source = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
-
-
     newNodes.shift();
 
     for(key in newNodes){
       nodes.push(newNodes[key]);
     }
     var newlinks = newNodes.map(function(d, i){
-      return {"source": source, "target": nodeLength + i, "weight": 1 }
+      var targetIndex = nodeLength + i;
+      linkedByIndex[source + "," + targetIndex] = true;
+      return {"source": source, "target": targetIndex, "weight": 1 }
     });
 
     for(key in newlinks){
@@ -147,7 +152,9 @@ function paintNetwork(newNodes){
       .text(function(d) { return d.name });
 
   node.on("click", switchNode)
-      .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}});
+      .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}})
+      .on("mouseover", function(d) {setHighlight(d);})
+      .on("mouseout", function(d) {exitHighlight(d);});
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
@@ -157,6 +164,22 @@ function paintNetwork(newNodes){
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   });
+
+  function setHighlight(d){
+    console.log("setHighlight");
+
+    var text = svg.selectAll("text");
+    text.style("font-weight", function(o) {
+        return isConnected(d, o) ? "bold" : "normal";
+    });
+  }
+
+  function exitHighlight(){
+    console.log("exitHighlight");
+
+    var text = svg.selectAll("text");
+    text.style("font-weight", "normal");
+  }
 }
 
 // re-fetch data
@@ -166,4 +189,9 @@ function switchNode(){
 
   d3.selectAll(this.parentNode.children).remove();
   fetchData(d3.select(this).text(), paintNetwork);
+}
+
+
+function isConnected(a, b) {
+  return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
 }
