@@ -124,7 +124,7 @@ function paintNetwork(newNodes){
     }
   }
 
-  console.log(nodes);
+  
 
   force
   .nodes(nodes)
@@ -165,6 +165,7 @@ function paintNetwork(newNodes){
 }
 
 function switchNode(){
+  if (d3.event.defaultPrevented) return;
   //console.log(this.parentNode);
   d3.selectAll(this.parentNode.children).remove();
   fetchData(d3.select(this).text(), paintNetwork);
