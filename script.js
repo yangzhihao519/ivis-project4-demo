@@ -14,6 +14,8 @@ var force = d3.layout.force()
 
 var g = svg.append("g");
 
+var sourceIndex = 0;
+var sourceIndexArray = [0];
 var nodes = [];
 var links = [];
 var linkedByIndex = {};
@@ -21,6 +23,8 @@ var linkedByIndex = {};
 // functions
 function makeGraph(){
   var text = document.getElementById("Field").value;
+  sourceIndex = 0;
+  sourceIndexArray = [0];
   fetchData(text, paintNetwork);
 }
 
@@ -98,14 +102,15 @@ function paintNetwork(newNodes){
     var newlinks = nodes.map(function(d){
       var targetIndex = nodes.map(function(n){return n.name}).indexOf(d.name);
       linkedByIndex["0," + targetIndex] = true;
-      return {"source": 0, "target": targetIndex, "weight": 1}
+      return {"source": sourceIndex, "target": targetIndex, "weight": 1}
     });
     for(key in newlinks){
       links.push(newlinks[key]);
     }
     nodes[0].source = true;
   }else{
-    source = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
+    // source = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
+    //source = sourceIndex;
     newNodes.shift();
 
     for(key in newNodes){
@@ -114,7 +119,7 @@ function paintNetwork(newNodes){
     var newlinks = newNodes.map(function(d, i){
       var targetIndex = nodeLength + i;
       linkedByIndex[source + "," + targetIndex] = true;
-      return {"source": source, "target": targetIndex, "weight": 1 }
+      return {"source": sourceIndex, "target": targetIndex, "weight": 1 }
     });
 
     for(key in newlinks){
@@ -153,8 +158,8 @@ function paintNetwork(newNodes){
 
   node.on("click", switchNode)
       .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}})
-      .on("mouseover", function(d) {setHighlight(d);})
-      .on("mouseout", function(d) {exitHighlight(d);});
+      .on("mouseover", function(d) {setHighlight(d); })
+      .on("mouseout", function(d) {exitHighlight(d); });
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
@@ -201,15 +206,27 @@ function paintNetwork(newNodes){
     var c = svg.selectAll('circle');
     c.style("stroke", "black");
   }
-}
 
-// re-fetch data
-function switchNode(){
-  //this line prevents the click-event to occur if there already is a drag-event
-  if (d3.event.defaultPrevented) return;
+  // re-fetch data
+  function switchNode(d){
+    //this line prevents the click-event to occur if there already is a drag-event
+    if (d3.event.defaultPrevented) return;
 
-  d3.selectAll(this.parentNode.children).remove();
-  fetchData(d3.select(this).text(), paintNetwork);
+    console.log(d.index);
+    console.log(sourceIndexArray);
+
+    if(sourceIndexArray.indexOf(d.index) != -1){
+      // this node is one of the source nodes
+      // do nothing
+    }else{
+      // fetch data only for lead node
+      sourceIndex = d.index;
+      sourceIndexArray.push(sourceIndex);
+
+      d3.selectAll(this.parentNode.children).remove();
+      fetchData(d3.select(this).text(), paintNetwork);
+    }
+  }
 }
 
 
