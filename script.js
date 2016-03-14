@@ -176,6 +176,10 @@ function paintNetwork(newNodes){
     var l = svg.selectAll(".link");
     l.style("stroke", function(o) {
       return o.source.index == d.index || o.target.index == d.index ? "red" : "gray";
+    })
+    .style("stroke-width", function(o) { 
+      var weight = Math.sqrt(d.weight);
+      return o.source.index == d.index || o.target.index == d.index ? weight*2 : weight;
     });
 
     var c = svg.selectAll('circle');
@@ -191,7 +195,8 @@ function paintNetwork(newNodes){
     t.style("font-weight", "normal");
 
     var l = svg.selectAll(".link");
-    l.style("stroke", "black");
+    l.style("stroke", "black")
+    .style("stroke-width", function(o) { return Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
     c.style("stroke", "black");
