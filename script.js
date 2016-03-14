@@ -107,6 +107,7 @@ function paintNetwork(newNodes){
     for(key in newlinks){
       links.push(newlinks[key]);
     }
+    nodes[0].source = true;
   }else{
     source = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
 
@@ -123,6 +124,7 @@ function paintNetwork(newNodes){
     for(key in newlinks){
       links.push(newlinks[key]);
     }
+    nodes[source].source = true;
   }
 
   //console.log(nodes);
@@ -146,19 +148,16 @@ function paintNetwork(newNodes){
   .call(force.drag);
 
   node.append("circle")
-  .attr("r",function(d,i){
-    return (i === source) ? 15 : 10;
-  })
-  .style("fill",function(d,i){
-    return (i === source) ? "#abc" : "#cba";
-  });
+  .attr("class", function(d){return d.source === true ? "source" : null})
+  .attr("r",10);
 
   node.append("text")
   .attr("dx", 12)
   .attr("dy", ".35em")
   .text(function(d) { return d.name });
 
-  node.on("click", switchNode);
+  node.on("click", switchNode)
+  .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}});
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
