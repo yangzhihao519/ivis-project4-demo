@@ -168,17 +168,33 @@ function paintNetwork(newNodes){
   function setHighlight(d){
     console.log("setHighlight");
 
-    var text = svg.selectAll("text");
-    text.style("font-weight", function(o) {
+    var t = svg.selectAll("text");
+    t.style("font-weight", function(o) {
         return isConnected(d, o) ? "bold" : "normal";
+    });
+
+    var l = svg.selectAll(".link");
+    l.style("stroke", function(o) {
+      return o.source.index == d.index || o.target.index == d.index ? "red" : "gray";
+    });
+
+    var c = svg.selectAll('circle');
+    c.style("stroke", function(o) {
+      return isConnected(d, o) ? "red" : "white";
     });
   }
 
   function exitHighlight(){
     console.log("exitHighlight");
 
-    var text = svg.selectAll("text");
-    text.style("font-weight", "normal");
+    var t = svg.selectAll("text");
+    t.style("font-weight", "normal");
+
+    var l = svg.selectAll(".link");
+    l.style("stroke", "black");
+
+    var c = svg.selectAll('circle');
+    c.style("stroke", "black");
   }
 }
 
