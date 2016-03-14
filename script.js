@@ -1,4 +1,4 @@
-
+// init 
 var width = 900,
 height = window.innerHeight;
 
@@ -6,13 +6,22 @@ var svg = d3.select("#displayGraph").append("svg")
 .attr("width", width)
 .attr("height", height);
 
-var bubbles = [];
+var force = d3.layout.force()
+              .gravity(.05)
+              .distance(100)
+              .charge(-100)
+              .size([width, height]);
 
+var nodes = [];
+var links = [];
+
+// functions
 function makeGraph(){
   var text = document.getElementById("Field").value;
-  var bubble = fetchData(text, paintNetwork);
+  fetchData(text, paintNetwork);
 }
 
+// call Wiki API to fetch data
 function fetchData(text, callback) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
@@ -41,7 +50,6 @@ function fetchData(text, callback) {
         }
         i += 1;
       }
-      // document.getElementById("space").innerHTML = see_also_index;
 
       // If section do not exist, print error message
       if (see_also_index == 'Not found') {
@@ -61,38 +69,21 @@ function fetchData(text, callback) {
               link_array.push({"name":data.parse.links[i]['*'], "size":see_also_byteoffset/2});
               i += 1;
             }
-            
 
             var newNodes = [{"name": title}];
             link_array.forEach(function(d){
               newNodes.push({"name": d.name})
             });
 
-            var newLinks = link_array.map(function(d){
-              return {"source": 0, "target": newNodes.map(function(n){return n.name}).indexOf(d.name), "weight": 1}
-            });
-
-            var json = {"nodes": newNodes, "links": newLinks};
-
-
             callback(newNodes);            
           }
-          );
+        );
       }
     }
     );
 }
 
-
-var force = d3.layout.force()
-.gravity(.05)
-.distance(100)
-.charge(-100)
-.size([width, height]);
-
-var nodes = [];
-var links = [];
-
+// draw the network using new nodes
 function paintNetwork(newNodes){
   var nodeLength = nodes.length;
   var source = 0;
@@ -129,46 +120,46 @@ function paintNetwork(newNodes){
 
   //console.log(nodes);
 
-  force
-  .nodes(nodes)
-  .links(links)
-  .start();
+  force.nodes(nodes)
+        .links(links)
+        .start();
 
   var link = svg.selectAll(".link")
-  .data(links)
-  .enter().append("line")
-  .attr("class", "link")
-  .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
-  .style("stroke", "black");
+                .data(links)
+                .enter().append("line")
+                .attr("class", "link")
+                .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
+                .style("stroke", "black");
 
   var node = svg.selectAll(".node")
-  .data(nodes)
-  .enter().append("g")
-  .attr("class", "node")
-  .call(force.drag);
+                .data(nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .call(force.drag);
 
   node.append("circle")
-  .attr("class", function(d){return d.source === true ? "source" : null})
-  .attr("r",10);
+      .attr("class", function(d){return d.source === true ? "source" : null})
+      .attr("r",10);
 
   node.append("text")
-  .attr("dx", 12)
-  .attr("dy", ".35em")
-  .text(function(d) { return d.name });
+      .attr("dx", 12)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name });
 
   node.on("click", switchNode)
-  .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}});
+      .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}});
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
-    .attr("y1", function(d) { return d.source.y; })
-    .attr("x2", function(d) { return d.target.x; })
-    .attr("y2", function(d) { return d.target.y; });
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   });
 }
 
+// re-fetch data
 function switchNode(){
   //this line prevents the click-event to occur if there already is a drag-event
   if (d3.event.defaultPrevented) return;
