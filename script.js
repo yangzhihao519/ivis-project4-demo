@@ -94,7 +94,9 @@ var nodes = [];
 var links = [];
 
 function paintNetwork(newNodes){
-  if(nodes.length == 0){
+  var nodeLength = nodes.length;
+  var source = 0;
+  if(nodeLength == 0){
     for(key in newNodes){
       nodes.push(newNodes[key]);
     }
@@ -106,9 +108,8 @@ function paintNetwork(newNodes){
       links.push(newlinks[key]);
     }
   }else{
-    var nodeLength = nodes.length;
-    var newSource = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
-    console.log("newSource: "+newSource);
+    source = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
+
 
     newNodes.shift();
 
@@ -116,7 +117,7 @@ function paintNetwork(newNodes){
       nodes.push(newNodes[key]);
     }
     var newlinks = newNodes.map(function(d, i){
-      return {"source": newSource, "target": nodeLength + i, "weight": 1 }
+      return {"source": source, "target": nodeLength + i, "weight": 1 }
     });
 
     for(key in newlinks){
@@ -124,7 +125,7 @@ function paintNetwork(newNodes){
     }
   }
 
-  
+  //console.log(nodes);
 
   force
   .nodes(nodes)
@@ -145,7 +146,12 @@ function paintNetwork(newNodes){
   .call(force.drag);
 
   node.append("circle")
-  .attr("r",10);
+  .attr("r",function(d,i){
+    return (i === source) ? 15 : 10;
+  })
+  .style("fill",function(d,i){
+    return (i === source) ? "#abc" : "#cba";
+  });
 
   node.append("text")
   .attr("dx", 12)
@@ -165,8 +171,9 @@ function paintNetwork(newNodes){
 }
 
 function switchNode(){
+  //this line prevents the click-event to occur if there already is a drag-event
   if (d3.event.defaultPrevented) return;
-  //console.log(this.parentNode);
+
   d3.selectAll(this.parentNode.children).remove();
   fetchData(d3.select(this).text(), paintNetwork);
 }
