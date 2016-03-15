@@ -1,23 +1,79 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<link rel="stylesheet" href="style.css">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- Bootstrap JavaScript, needed if you want for instance tabs, models, popovers etc. -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+     <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <link href='https://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+    body{
+          background-image:url(images/background.png);
+          background-size: 100%, 100%;
+          margin-left: 15px;
+      }</style>
+
+   </head>
 
 <body>
-  <div class="col-md-3" id="searchSidebar">
-    <h1> WikiPedro </h1>
-    <div class="input-group" id="inputField">
-      <input type="text"  class="form-control" name="Field" id="Field" value="">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default" onclick="makeGraph()">Fetch</button>
+  <div class="container">
+    <!-- Home Page -->
+    <div class="content" id="homepg">
+     <div class="WikiPedro"><span>Wiki</span><span style="color:#FD6721">Pedro</span></div>
+       <div class="col-lg-12 searchBox">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for..." id="homeSearch">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" id="searchButton" onclick="makeGraph()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div>
+
+    <!-- Deatail Page -->
+    <div id="searchpg">
+      <div class="col-md-3" id="searchSidebar">
+        <h1> WikiPedro </h1>
+          <div class="input-group" id="inputField">
+            <input type="text"  class="form-control" name="Field" id="pageSearch">
+            <div class="input-group-btn">
+            <button type="button" class="btn btn-default" onclick="makeGraph()">Fetch</button>
+            </div>
+          </div>
+          <p id="space"></p>
+          <p id="space2"></p>
+      </div>
+      <div class="col-md-9" id="displayGraph">
       </div>
     </div>
-    <p id="space"></p>
-    <p id="space2"></p>
   </div>
-  <div class="col-md-9" id="displayGraph">
-  </div>
+ 
+<!-- Page onload -->
+<script type="text/javascript">
+$(document).ready(function(){
+  // Homepage
+  $("#searchpg").hide();
+
+  //Detail Page
+  $("#searchButton").click(function(){
+    $("#homepg").hide();
+    $("#searchpg").show();
+  });
+});
+</script>
 
 <!-- Loading stuff -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

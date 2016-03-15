@@ -22,7 +22,13 @@ var linkedByIndex = {};
 
 // functions
 function makeGraph(){
-  var text = document.getElementById("Field").value;
+  var text = document.getElementById("pageSearch").value;
+
+  if (text == "") {
+    var text = document.getElementById("homeSearch").value;
+    document.getElementById("pageSearch").value = text;
+  } 
+
   sourceIndex = 0;
   sourceIndexArray = [0];
   fetchData(text, paintNetwork);

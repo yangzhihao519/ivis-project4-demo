@@ -2,6 +2,25 @@ body {
   font: 10px sans-serif;
 }
 
+/*Home Page*/
+.content{
+  position: absolute;
+  top: 20%;
+  left: 35%;
+}
+
+.searchBox{
+  position: absolute;
+}
+
+.WikiPedro{
+  font-family: 'Crete Round', serif;
+    font-size: 85px;
+    text-align: -webkit-center;
+}
+
+/* Home Page*/
+
 .axis path,
 .axis line {
   fill: none;
