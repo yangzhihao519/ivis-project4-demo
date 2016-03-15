@@ -171,6 +171,7 @@ function paintNetwork(newNodes){
   node.append("text")
       .attr("dx", 12)
       .attr("dy", ".35em")
+      .attr("class", function(d){return d.source === true ? "sourceName" : null})
       .text(function(d) { return d.name });
 
   node.on("click", switchNode)
