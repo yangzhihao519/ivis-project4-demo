@@ -12,8 +12,6 @@ var force = d3.layout.force()
               .charge(-100)
               .size([width, height]);
 
-var g = svg.append("g");
-
 var sourceIndex = 0;
 var sourceIndexArray = [0];
 var nodes = [];
@@ -23,14 +21,27 @@ var linkedByIndex = {};
 // functions
 function makeGraph(){
   var text = document.getElementById("pageSearch").value;
+  //console.log(text);
 
   if (text == "") {
     var text = document.getElementById("homeSearch").value;
     document.getElementById("pageSearch").value = text;
   } 
 
+  force = d3.layout.force()
+              .gravity(.05)
+              .distance(100)
+              .charge(-100)
+              .size([width, height]);
+
   sourceIndex = 0;
   sourceIndexArray = [0];
+  nodes = [];
+  links = [];
+  linkedByIndex = {};
+
+  // get the search text and draw a new graph
+  // var text = document.getElementById("pageSearch").value;
   fetchData(text, paintNetwork);
 }
 
@@ -107,7 +118,7 @@ function paintNetwork(newNodes){
 
     var newlinks = nodes.map(function(d){
       var targetIndex = nodes.map(function(n){return n.name}).indexOf(d.name);
-      linkedByIndex["0," + targetIndex] = true;
+      linkedByIndex[sourceIndex + "," + targetIndex] = true;
       return {"source": sourceIndex, "target": targetIndex, "weight": 1}
     });
     for(key in newlinks){
@@ -124,7 +135,7 @@ function paintNetwork(newNodes){
     }
     var newlinks = newNodes.map(function(d, i){
       var targetIndex = nodeLength + i;
-      linkedByIndex[source + "," + targetIndex] = true;
+      linkedByIndex[sourceIndex + "," + targetIndex] = true;
       return {"source": sourceIndex, "target": targetIndex, "weight": 1 }
     });
 
@@ -190,12 +201,18 @@ function paintNetwork(newNodes){
     })
     .style("stroke-width", function(o) { 
       var weight = Math.sqrt(d.weight);
-      return o.source.index == d.index || o.target.index == d.index ? weight*2 : weight;
+      console.log("weight: "+weight);
+      return o.source.index == d.index || o.target.index == d.index ? weight*2 : 0.5;
     });
 
     var c = svg.selectAll('circle');
     c.style("stroke", function(o) {
       return isConnected(d, o) ? "red" : "white";
+    })
+    .style("stroke-width", function(o) { 
+      var weight = Math.sqrt(d.weight);
+      console.log("weight: "+weight);
+      return isConnected(d, o) ? weight*2 : 0.5;
     });
   }
 
@@ -210,7 +227,8 @@ function paintNetwork(newNodes){
     .style("stroke-width", function(o) { return Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
-    c.style("stroke", "black");
+    c.style("stroke", "black")
+    .style("stroke-width", 0.5);
   }
 
   // re-fetch data
