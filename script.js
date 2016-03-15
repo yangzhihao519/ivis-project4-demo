@@ -22,9 +22,28 @@ var linkedByIndex = {};
 
 // functions
 function makeGraph(){
-  var text = document.getElementById("Field").value;
+  var text = document.getElementById("pageSearch").value;
+  //console.log(text);
+
+  if (text == "") {
+    var text = document.getElementById("homeSearch").value;
+    document.getElementById("pageSearch").value = text;
+  } 
+
+  force = d3.layout.force()
+              .gravity(.05)
+              .distance(100)
+              .charge(-100)
+              .size([width, height]);
+
   sourceIndex = 0;
   sourceIndexArray = [0];
+  nodes = [];
+  links = [];
+  linkedByIndex = {};
+
+  // get the search text and draw a new graph
+  // var text = document.getElementById("pageSearch").value;
   fetchData(text, paintNetwork);
 }
 
