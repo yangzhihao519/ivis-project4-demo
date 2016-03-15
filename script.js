@@ -12,8 +12,6 @@ var force = d3.layout.force()
               .charge(-100)
               .size([width, height]);
 
-var g = svg.append("g");
-
 var sourceIndex = 0;
 var sourceIndexArray = [0];
 var nodes = [];
@@ -26,10 +24,18 @@ function makeGraph(){
   //console.log(text);
 
   if (text == "") {
-    var text = document.getElementById("homeSearch").value;
+    text = document.getElementById("homeSearch").value;
     document.getElementById("pageSearch").value = text;
-  } 
+  }
 
+  console.log(text);
+  var existedSvg = document.getElementsByTagName("svg");
+
+  //console.log(existedSvg);
+  //console.log(existedSvg[0].childNodes);
+
+  d3.selectAll(existedSvg[0].childNodes).remove();
+  
   force = d3.layout.force()
               .gravity(.05)
               .distance(100)
@@ -52,6 +58,7 @@ function fetchData(text, callback) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
   //  externallinks|sections|revid|displaytitle|iwlinks|properties'
+  console.log("fetchData: "+text);
   
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
   
@@ -111,7 +118,11 @@ function fetchData(text, callback) {
 
 // draw the network using new nodes
 function paintNetwork(newNodes){
+  console.log("paintNetwork: "+newNodes);
+
   var nodeLength = nodes.length;
+  console.log("nodeLength"+nodeLength);
+
   var source = 0;
   if(nodeLength == 0){
     for(key in newNodes){
@@ -126,6 +137,8 @@ function paintNetwork(newNodes){
     for(key in newlinks){
       links.push(newlinks[key]);
     }
+    console.log(nodes);
+    console.log(links);
     nodes[0].source = true;
   }else{
     // source = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
@@ -248,6 +261,11 @@ function paintNetwork(newNodes){
       // fetch data only for lead node
       sourceIndex = d.index;
       sourceIndexArray.push(sourceIndex);
+      
+      // console.log("this.parentNode.children");
+      // console.log(this);
+      // console.log(this.parentNode);
+      // console.log(this.parentNode.children);
 
       d3.selectAll(this.parentNode.children).remove();
       fetchData(d3.select(this).text(), paintNetwork);
