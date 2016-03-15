@@ -1,5 +1,6 @@
 body {
   font: 10px sans-serif;
+  font-family: 'Crete Round', serif;
 }
 
 /*Home Page*/
@@ -15,11 +16,34 @@ body {
 
 .WikiPedro{
   font-family: 'Crete Round', serif;
-    font-size: 85px;
-    text-align: -webkit-center;
+  font-size: 85px;
+  text-align: -webkit-center;
 }
 
-/* Home Page*/
+/* Search Page Sidebar */
+.WikiPedroLogo{
+  font-family: 'Crete Round', serif;
+  font-size: 25px;
+  float: center;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 30px;
+}
+
+#searchSidebar{
+  float: left;
+  /* position: absolute; */
+  background-color: rgba(185,122,87,0.5);
+  height: 100%;
+  width: 25%;}
+
+/* Display */
+#displayGraph{
+  border-style: ridge;
+  float: right;
+  height: 100%;
+  width: 75%;
+}
 
 .axis path,
 .axis line {
@@ -46,11 +70,17 @@ body {
 
 .source{
   fill: #abc;
-  r: 15;
+  r: 25;
+}
+
+.sourceName{
+  font-size: 25px;
+  color: #FD6721;
 }
 
 text {
   font-size: 11px;
+  background-color: #FD6721;
   pointer-events: none;
 }
 
@@ -59,6 +89,7 @@ text.parent {
 }
 
 circle {
+  r:8;
   fill: #cba;
   stroke: #999;
   pointer-events: all;
@@ -77,8 +108,4 @@ circle.parent:hover {
 
 circle.child {
   pointer-events: none;
-}
-
-#searchSidebar {
-  background-color: #F5DB93;
 }
