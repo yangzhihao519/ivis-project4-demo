@@ -12,8 +12,6 @@ var force = d3.layout.force()
               .charge(-100)
               .size([width, height]);
 
-var g = svg.append("g");
-
 var sourceIndex = 0;
 var sourceIndexArray = [0];
 var nodes = [];
@@ -22,9 +20,25 @@ var linkedByIndex = {};
 
 // functions
 function makeGraph(){
-  var text = document.getElementById("Field").value;
+  
+  // set space to empty
+  document.getElementById("space").innerHTML = "";
+
+  // empty the graph
+  force = d3.layout.force()
+                .gravity(.05)
+                .distance(100)
+                .charge(-100)
+                .size([width, height]);
+
   sourceIndex = 0;
   sourceIndexArray = [0];
+  nodes = [];
+  links = [];
+  linkedByIndex = {};
+
+  // get the search text and draw a new graph
+  var text = document.getElementById("Field").value;
   fetchData(text, paintNetwork);
 }
 
