@@ -20,16 +20,19 @@ var linkedByIndex = {};
 
 // functions
 function makeGraph(){
-  
-  // set space to empty
-  document.getElementById("space").innerHTML = "";
+  var text = document.getElementById("pageSearch").value;
+  //console.log(text);
 
-  // empty the graph
+  if (text == "") {
+    var text = document.getElementById("homeSearch").value;
+    document.getElementById("pageSearch").value = text;
+  } 
+
   force = d3.layout.force()
-                .gravity(.05)
-                .distance(100)
-                .charge(-100)
-                .size([width, height]);
+              .gravity(.05)
+              .distance(100)
+              .charge(-100)
+              .size([width, height]);
 
   sourceIndex = 0;
   sourceIndexArray = [0];
@@ -38,7 +41,7 @@ function makeGraph(){
   linkedByIndex = {};
 
   // get the search text and draw a new graph
-  var text = document.getElementById("Field").value;
+  // var text = document.getElementById("pageSearch").value;
   fetchData(text, paintNetwork);
 }
 
