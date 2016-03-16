@@ -7,16 +7,21 @@ var svg = d3.select("#displayGraph").append("svg")
 .attr("height", height);
 
 var force = d3.layout.force()
-              .gravity(.05)
-              .distance(100)
-              .charge(-100)
-              .size([width, height]);
+.gravity(.05)
+.distance(100)
+.charge(-100)
+.size([width, height]);
 
 var sourceIndex = 0;
 var sourceIndexArray = [0];
 var nodes = [];
 var links = [];
 var linkedByIndex = {};
+
+var defaultCategory = {"name": "Default", "children": []};
+var infovisCetagory = {"name": "Information Visualization", "children": []};
+
+var library = {"name": "", "children": [defaultCategory, infovisCetagory]};
 
 // functions
 function makeGraph(){
@@ -28,7 +33,6 @@ function makeGraph(){
     document.getElementById("pageSearch").value = text;
   }
 
-  console.log(text);
   var existedSvg = document.getElementsByTagName("svg");
 
   //console.log(existedSvg);
@@ -37,10 +41,10 @@ function makeGraph(){
   d3.selectAll(existedSvg[0].childNodes).remove();
   
   force = d3.layout.force()
-              .gravity(.05)
-              .distance(100)
-              .charge(-100)
-              .size([width, height]);
+  .gravity(.05)
+  .distance(100)
+  .charge(-100)
+  .size([width, height]);
 
   sourceIndex = 0;
   sourceIndexArray = [0];
@@ -58,7 +62,6 @@ function fetchData(text, callback) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
   //  externallinks|sections|revid|displaytitle|iwlinks|properties'
-  console.log("fetchData: "+text);
   
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
   
@@ -110,7 +113,7 @@ function fetchData(text, callback) {
 
             callback(newNodes);            
           }
-        );
+          );
       }
     }
     );
@@ -129,10 +132,10 @@ function redraw(newNodes, text){
 
 // draw the network using new nodes
 function paintNetwork(newNodes){
-  console.log("paintNetwork: "+newNodes);
+  //console.log("paintNetwork: "+newNodes);
 
   var nodeLength = nodes.length;
-  console.log("nodeLength"+nodeLength);
+  //console.log("nodeLength"+nodeLength);
 
   var source = 0;
   if(nodeLength == 0){
@@ -174,52 +177,52 @@ function paintNetwork(newNodes){
   //console.log(nodes);
 
   force.nodes(nodes)
-        .links(links)
-        .start();
+  .links(links)
+  .start();
 
   var link = svg.selectAll(".link")
-                .data(links)
-                .enter().append("line")
-                .attr("class", "link")
-                .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
-                .style("stroke", "black");
+  .data(links)
+  .enter().append("line")
+  .attr("class", "link")
+  .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
+  .style("stroke", "black");
 
   var node = svg.selectAll(".node")
-                .data(nodes)
-                .enter().append("g")
-                .attr("class", "node")
-                .call(force.drag);
+  .data(nodes)
+  .enter().append("g")
+  .attr("class", "node")
+  .call(force.drag);
 
   node.append("circle")
-      .attr("class", function(d){return d.source === true ? "source" : null})
-      .attr("r",10);
+  .attr("class", function(d){return d.source === true ? "source" : null})
+  .attr("r",10);
 
   node.append("text")
-      .attr("dx", 12)
-      .attr("dy", ".35em")
-      .attr("class", function(d){return d.source === true ? "sourceName" : null})
-      .text(function(d) { return d.name });
+  .attr("dx", 12)
+  .attr("dy", ".35em")
+  .attr("class", function(d){return d.source === true ? "sourceName" : null})
+  .text(function(d) { return d.name });
 
   node.on("click", switchNode)
-      .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}})
-      .on("mouseover", function(d) {setHighlight(d); })
-      .on("mouseout", function(d) {exitHighlight(d); });
+  .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}})
+  .on("mouseover", function(d) {setHighlight(d); })
+  .on("mouseout", function(d) {exitHighlight(d); });
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+    .attr("y1", function(d) { return d.source.y; })
+    .attr("x2", function(d) { return d.target.x; })
+    .attr("y2", function(d) { return d.target.y; });
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   });
 
   function setHighlight(d){
-    console.log("setHighlight");
+    //console.log("setHighlight");
 
     var t = svg.selectAll("text");
     t.style("font-weight", function(o) {
-        return isConnected(d, o) ? "bold" : "normal";
+      return isConnected(d, o) ? "bold" : "normal";
     });
 
     var l = svg.selectAll(".link");
@@ -244,7 +247,7 @@ function paintNetwork(newNodes){
   }
 
   function exitHighlight(){
-    console.log("exitHighlight");
+    //console.log("exitHighlight");
 
     var t = svg.selectAll("text");
     t.style("font-weight", "normal");
@@ -291,39 +294,41 @@ function isConnected(a, b) {
 }
 
 
-function library(){
+function makeLibrary(){
 
-var knitting = {"name": "Knitting", "size": 10};
-var hello = {"name": "Hello", "size": 7};
-var france = {"name": "France", "size": 1};
+  var knitting = {"name": "Knitting", "size": 10};
+  var hello = {"name": "Hello", "size": 7};
+  var france = {"name": "France", "size": 1};
 
-var bubble = {"name": "Category 1", "children": [knitting, hello, france]};
+  var bubble = {"name": "Category 1", "children": [knitting, hello, france]};
 
-var w = 1280,
-h = 800,
-r = 720,
-x = d3.scale.linear().range([0, r]),
-y = d3.scale.linear().range([0, r]),
-node,
-root;
+  var w = width,
+  h = height,
+  r = 720,
+  x = d3.scale.linear().range([0, r]),
+  y = d3.scale.linear().range([0, r]),
+  node,
+  root;
 
-var pack = d3.layout.pack()
-.size([r, r])
-.value(function(d) { return d.size; })
+  var pack = d3.layout.pack()
+  .size([r, r])
+  .value(function(d) { return d.size; })
 
-var vis = d3.select("#librarypg").insert("svg:svg", "h2")
-.attr("width", w)
-.attr("height", h)
-.append("svg:g")
-.attr("transform", "translate(" + (w - r) / 2 + "," + (h - r) / 2 + ")");
+  d3.select("#librarypg svg").remove();
+
+  var vis = d3.select("#librarypg").insert("svg:svg", "h2")
+  .attr("width", w)
+  .attr("height", h)
+  .append("svg:g")
+  .attr("transform", "translate(" + (w - r) / 2 + "," + (h - r) / 2 + ")");
 
 
-  node = root = bubble;
+  node = root = library;
 
-  var nodes = pack.nodes(root);
+  var bubbles = pack.nodes(root);
 
   vis.selectAll("circle")
-  .data(nodes)
+  .data(bubbles)
   .enter().append("svg:circle")
   .attr("class", function(d) { return d.children ? "parent" : "child"; })
   .attr("cx", function(d) { return d.x; })
@@ -332,7 +337,7 @@ var vis = d3.select("#librarypg").insert("svg:svg", "h2")
   .on("click", function(d) { return zoom(node == d ? root : d); });
 
   vis.selectAll("text")
-  .data(nodes)
+  .data(bubbles)
   .enter().append("svg:text")
   .attr("class", function(d) { return d.children ? "parent" : "child"; })
   .attr("x", function(d) { return d.x; })
@@ -345,25 +350,46 @@ var vis = d3.select("#librarypg").insert("svg:svg", "h2")
   d3.select(window).on("click", function() { zoom(root); });
 
 
-function zoom(d, i) {
-  var k = r / d.r / 2;
-  x.domain([d.x - d.r, d.x + d.r]);
-  y.domain([d.y - d.r, d.y + d.r]);
+  function zoom(d, i) {
+    var k = r / d.r / 2;
+    x.domain([d.x - d.r, d.x + d.r]);
+    y.domain([d.y - d.r, d.y + d.r]);
 
-  var t = vis.transition()
-  .duration(d3.event.altKey ? 7500 : 750);
+    var t = vis.transition()
+    .duration(d3.event.altKey ? 7500 : 750);
 
-  t.selectAll("circle")
-  .attr("cx", function(d) { return x(d.x); })
-  .attr("cy", function(d) { return y(d.y); })
-  .attr("r", function(d) { return k * d.r; });
+    t.selectAll("circle")
+    .attr("cx", function(d) { return x(d.x); })
+    .attr("cy", function(d) { return y(d.y); })
+    .attr("r", function(d) { return k * d.r; });
 
-  t.selectAll("text")
-  .attr("x", function(d) { return x(d.x); })
-  .attr("y", function(d) { return y(d.y); })
-  .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
+    t.selectAll("text")
+    .attr("x", function(d) { return x(d.x); })
+    .attr("y", function(d) { return y(d.y); })
+    .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
 
-  node = d;
-  d3.event.stopPropagation();
+    node = d;
+    d3.event.stopPropagation();
+  }
 }
+
+
+function addToLibrary(){
+  var category = $('input[name=category]:checked', "#categoryForm").val();
+
+  var libraryObject = {"name": nodes[sourceIndex].name, "size": nodes[sourceIndex].weight};
+  //library.children.push(libraryObject);
+
+  var libraryCategory = library.children.find(function(d){
+    return d.name === category;
+  });
+
+  libraryCategory.children.push(libraryObject);
+
 }
+
+
+
+
+
+

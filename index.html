@@ -65,10 +65,12 @@
         </button>
         <div class="collapse" id="collapseExample">
           <div class="well">
-            <input type="checkbox" aria-label="..."> Default <br>
-            <input type="checkbox" aria-label="..."> Information Visualization<br>
+            <form id="categoryForm">
+              <input type="radio" name="category" value="Default" aria-label="..."> Default <br>
+              <input type="radio" name="category" value="Information Visualization" aria-label="..."> Information Visualization<br>
+            </form>
             <div class="savebtn">
-              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="">
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="" onclick="addToLibrary()">
                save
               </button>
             </div>
@@ -77,7 +79,7 @@
         </div>
 
           <br/> <br/>
-          <button type="button" class="btn btn-default" id="seeMyLibraryButton" onclick="library()">My library</button>
+          <button type="button" class="btn btn-default" id="seeMyLibraryButton" onclick="makeLibrary()">My library</button>
           <br/> <br/>
       </div>
       <div class="col-md-9" id="displayGraph">
