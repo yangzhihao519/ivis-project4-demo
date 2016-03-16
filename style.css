@@ -29,6 +29,13 @@ body {
   margin-right: 5%;
 }
 
+.intro{
+  width: 95%;
+  height: 280px;
+  overflow: overlay;
+  margin: auto;
+}
+
 .WikiPedroLogo{
   font-family: 'Crete Round', serif;
   font-size: 25px;
