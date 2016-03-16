@@ -86,8 +86,8 @@ function fetchData(text, callback) {
 
       // If section do not exist, print error message
       if (see_also_index == 'Not found') {
-        document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
-        return null;
+        // document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
+        callback(null, text);
       }
       else {    // If section exists, do second data fetch
         mwjs.send({action: 'parse', page: text, section: see_also_index, prop: 'links'},
@@ -114,6 +114,17 @@ function fetchData(text, callback) {
       }
     }
     );
+}
+
+function redraw(newNodes, text){
+  if(newNodes){
+    var existedSvg = document.getElementsByTagName("svg");
+    d3.selectAll(existedSvg[0].childNodes).remove();
+    paintNetwork(newNodes);
+  }else{
+    console.log("redraw null");
+    document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
+  }
 }
 
 // draw the network using new nodes
@@ -268,8 +279,8 @@ function paintNetwork(newNodes){
       // console.log(this.parentNode);
       // console.log(this.parentNode.children);
 
-      d3.selectAll(this.parentNode.children).remove();
-      fetchData(d3.select(this).text(), paintNetwork);
+      // d3.selectAll(this.parentNode.children).remove();
+      fetchData(d3.select(this).text(), redraw);
     }
   }
 }
