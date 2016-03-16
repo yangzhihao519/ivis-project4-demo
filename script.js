@@ -3,8 +3,14 @@ var width = 750,
 height = window.innerHeight;
 
 var zoom = d3.behavior.zoom()
-            .scaleExtent([1, 10])
-            .on("zoom", zoomed);
+              .scaleExtent([0.5, 10])
+              .on("zoom", zoomed);
+
+var drag = d3.behavior.drag()
+              .origin(function(d) { return d; })
+              .on("dragstart", dragstarted)
+              .on("drag", dragged)
+              .on("dragend", dragended);
 
 var svg = d3.select("#displayGraph").append("svg")
 .attr("width", width)
@@ -257,10 +263,10 @@ function paintNetwork(newNodes){
 
 
   var node = container.selectAll(".node")
-  .data(nodes)
-  .enter().append("g")
-  .attr("class", "node")
-  .call(force.drag);
+                      .data(nodes)
+                      .enter().append("g")
+                      .attr("class", "node")
+                      .call(drag);
 
   node.append("circle")
       .attr("class", function(d){return d.source === true ? "source" : null})
@@ -379,6 +385,24 @@ function isConnected(a, b) {
 
 function zoomed() {
   container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+function dragstarted(d) {
+  d3.event.sourceEvent.stopPropagation();
+  
+  d3.select(this).classed("dragging", true);
+  force.start();
+}
+
+function dragged(d) {
+  
+  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  
+}
+
+function dragended(d) {
+  
+  d3.select(this).classed("dragging", false);
 }
 
 
