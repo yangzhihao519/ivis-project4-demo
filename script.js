@@ -2,9 +2,14 @@
 var width = 750,
 height = window.innerHeight;
 
+var zoom = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomed);
+
 var svg = d3.select("#displayGraph").append("svg")
 .attr("width", width)
-.attr("height", height);
+.attr("height", height)
+.call(zoom);;
 
 var container = svg.append("g");
 
@@ -370,6 +375,10 @@ function paintNetwork(newNodes){
 
 function isConnected(a, b) {
   return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+}
+
+function zoomed() {
+  container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
 
 
