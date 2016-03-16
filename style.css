@@ -21,6 +21,13 @@ body {
 }
 
 /* Search Page Sidebar */
+#searchpg{
+  margin-top: 10px;
+  margin-bottom: 50px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 .WikiPedroLogo{
   font-family: 'Crete Round', serif;
   font-size: 25px;
@@ -36,6 +43,10 @@ body {
   background-color: rgba(185,122,87,0.5);
   height: 100%;
   width: 25%;}
+
+.savebtn{
+  position: absolute;
+}
 
 /* Display */
 #displayGraph{

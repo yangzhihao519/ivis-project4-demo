@@ -1,5 +1,5 @@
 // init 
-var width = 900,
+var width = 750,
 height = window.innerHeight;
 
 var svg = d3.select("#displayGraph").append("svg")

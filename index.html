@@ -57,7 +57,25 @@
           <h4>Introduction</h4>
           <p id="introduction">some introduction here</p>
           <br/>
-          <button type="button" class="btn btn-default">Add to library</button>
+        <!--   <button type="button" class="btn btn-default">Add to library</button> -->
+          
+
+        <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Add to library
+        </button>
+        <div class="collapse" id="collapseExample">
+          <div class="well">
+            <input type="checkbox" aria-label="..."> Default <br>
+            <input type="checkbox" aria-label="..."> Information Visualization<br>
+            <div class="savebtn">
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="">
+               save
+              </button>
+            </div>
+          </div>
+          
+        </div>
+
           <br/> <br/>
           <button type="button" class="btn btn-default" id="seeMyLibraryButton">My library</button>
           <br/> <br/>
