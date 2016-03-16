@@ -58,7 +58,7 @@ function fetchData(text, callback) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
   //  externallinks|sections|revid|displaytitle|iwlinks|properties'
-  console.log("fetchData: "+text);
+  //console.log("fetchData: "+text);
   
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
   
@@ -198,6 +198,8 @@ function paintNetwork(newNodes){
   node.append("text")
       .attr("dx", 12)
       .attr("dy", ".35em")
+      // .attr("color", "#5C2700")
+      .attr("class","textColor")
       .attr("class", function(d){return d.source === true ? "sourceName" : null})
       .text(function(d) { return d.name });
 
@@ -216,7 +218,7 @@ function paintNetwork(newNodes){
   });
 
   function setHighlight(d){
-    console.log("setHighlight");
+    //console.log("setHighlight");
 
     var t = svg.selectAll("text");
     t.style("font-weight", function(o) {

@@ -1,6 +1,7 @@
 body {
   font: 10px sans-serif;
-  font-family: 'Crete Round', serif;
+  /*font-family: 'Crete Round', serif;*/
+  font-family: 'Arial', Verdana, sans-serif;
 }
 
 /*Home Page*/
@@ -94,12 +95,18 @@ body {
 
 text {
   font-size: 11px;
-  background-color: #FD6721;
+/*  color: #5C2700;*/
+  /*background-color: #FD6721;*/
   pointer-events: none;
+}
+
+.textColor{
+  color: #5C2700;
 }
 
 text.parent {
   fill: #1f77b4;
+  /*fill:#5C2700;*/
 }
 
 circle {
