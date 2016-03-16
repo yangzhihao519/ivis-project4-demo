@@ -62,8 +62,47 @@ function fetchData(text, callback) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
   //  externallinks|sections|revid|displaytitle|iwlinks|properties'
+<<<<<<< HEAD
+=======
+  //console.log("fetchData: "+text);
+>>>>>>> origin/master
   
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
+
+  mwjs.send({action: 'parse', page: text, section: "0", prop: 'text'},
+    function (data) {
+      'use strict';
+      
+      // Extract the text
+      var rawText = data.parse.text['*']
+
+      // Find position of first <p>
+      var frontIndex = rawText.search("<p>");
+
+      // Find position of last <p>
+      var endIndex = rawText.lastIndexOf("</p>");
+      
+      // Remove all garble stuff before the first <p> and
+      // remove all garble stuff after the first <!-- (including it)
+      var trimmedText = rawText.slice(frontIndex, endIndex + 4);
+      
+      // Fix so all links redirect to wikipedia correctly
+      trimmedText = trimmedText.replace(/href="/g,'href="https://en.wikipedia.org');
+      
+      // Replace this line with a call to a function that
+      // updates the "introduction info"-window
+
+      // Capitalise the first letter
+      var displayText = text;
+      displayText = displayText.charAt(0).toUpperCase() + displayText.slice(1);
+
+      // show title
+      document.getElementById("introTitle").innerHTML = displayText;
+
+      // show introduction
+      document.getElementById("introduction").innerHTML = trimmedText;
+    }
+  );
   
   mwjs.send({action: 'parse', page: text, prop: 'sections'},
     function (data) {
@@ -73,8 +112,10 @@ function fetchData(text, callback) {
       var see_also_byteoffset = 0;      // Set default value
       var pageid = 'null';          // Set default value
       
-      // Extract the array and find the "See also" section number
+      
       var sections_array = data.parse.sections;
+
+      // Extract the array and find the "See also" section number
       var i = 0, LENGTH = sections_array.length;
       while (i < LENGTH) {
         if (sections_array[i].line == 'See also') {
@@ -116,7 +157,7 @@ function fetchData(text, callback) {
           );
       }
     }
-    );
+  );
 }
 
 function redraw(newNodes, text){
@@ -124,8 +165,17 @@ function redraw(newNodes, text){
     var existedSvg = document.getElementsByTagName("svg");
     d3.selectAll(existedSvg[0].childNodes).remove();
     paintNetwork(newNodes);
+    document.getElementById("space").innerHTML = "";
   }else{
     console.log("redraw null");
+    for(key in sourceIndexArray){
+      if(sourceIndexArray[key] == sourceIndex){
+        sourceIndexArray.splice(key, 1);
+        break;
+      }else{
+        // do nothing
+      }
+    }
     document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
   }
 }
@@ -181,11 +231,20 @@ function paintNetwork(newNodes){
   .start();
 
   var link = svg.selectAll(".link")
+<<<<<<< HEAD
   .data(links)
   .enter().append("line")
   .attr("class", "link")
   .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
   .style("stroke", "black");
+=======
+                .data(links)
+                .enter().append("line")
+                .attr("class", "link")
+                // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
+                .style("stroke-width", function(d) { return 5*Math.sqrt(d.weight); })
+                .style("stroke", "#FFCF9E");
+>>>>>>> origin/master
 
   var node = svg.selectAll(".node")
   .data(nodes)
@@ -194,6 +253,7 @@ function paintNetwork(newNodes){
   .call(force.drag);
 
   node.append("circle")
+<<<<<<< HEAD
   .attr("class", function(d){return d.source === true ? "source" : null})
   .attr("r",10);
 
@@ -202,6 +262,22 @@ function paintNetwork(newNodes){
   .attr("dy", ".35em")
   .attr("class", function(d){return d.source === true ? "sourceName" : null})
   .text(function(d) { return d.name });
+=======
+      .attr("class", function(d){return d.source === true ? "source" : null})
+      .attr("r",function(d){
+        console.log("circle");
+        console.log(sourceIndexArray.indexOf(d.index));
+        return sourceIndexArray.indexOf(d.index) != -1 ? 15 : 8;
+      });
+
+  node.append("text")
+      .attr("dx", 12)
+      .attr("dy", ".35em")
+      // .attr("color", "#5C2700")
+      .attr("class","textColor")
+      .attr("class", function(d){return d.source === true ? "sourceName" : null})
+      .text(function(d) { return d.name });
+>>>>>>> origin/master
 
   node.on("click", switchNode)
   .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}})
@@ -227,22 +303,22 @@ function paintNetwork(newNodes){
 
     var l = svg.selectAll(".link");
     l.style("stroke", function(o) {
-      return o.source.index == d.index || o.target.index == d.index ? "red" : "gray";
+      return o.source.index == d.index || o.target.index == d.index ? "#5C2700" : "#FF9814";
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
       // console.log("weight: "+weight);
-      return o.source.index == d.index || o.target.index == d.index ? 2 : 0.5;
+      return o.source.index == d.index || o.target.index == d.index ? 5 : 1.5;
     });
 
     var c = svg.selectAll('circle');
     c.style("stroke", function(o) {
-      return isConnected(d, o) ? "red" : "white";
+      return isConnected(d, o) ? "#5C2700" : "#FF9814";
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
       // console.log("weight: "+weight);
-      return isConnected(d, o) ? 2 : 0.5;
+      return isConnected(d, o) ? 5 : 1.5;
     });
   }
 
@@ -253,12 +329,12 @@ function paintNetwork(newNodes){
     t.style("font-weight", "normal");
 
     var l = svg.selectAll(".link");
-    l.style("stroke", "black")
-    .style("stroke-width", function(o) { return Math.sqrt(o.weight); })
+    l.style("stroke", "#FFCF9E")
+    .style("stroke-width", function(o) { return 5*Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
-    c.style("stroke", "black")
-    .style("stroke-width", 0.5);
+    c.style("stroke", "#FF9814")
+    .style("stroke-width", 0);
   }
 
   // re-fetch data
@@ -266,8 +342,10 @@ function paintNetwork(newNodes){
     //this line prevents the click-event to occur if there already is a drag-event
     if (d3.event.defaultPrevented) return;
 
-    console.log(d.index);
-    console.log(sourceIndexArray);
+    // console.log(d.index);
+    // console.log(sourceIndexArray);
+
+    document.getElementById("pageSearch").value = "";
 
     if(sourceIndexArray.indexOf(d.index) != -1){
       // this node is one of the source nodes
