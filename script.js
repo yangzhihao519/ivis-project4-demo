@@ -37,7 +37,8 @@ function makeGraph(){
 
   //console.log(existedSvg);
   //console.log(existedSvg[0].childNodes);
-
+  document.getElementById("space").innerHTML = "";
+  
   d3.selectAll(existedSvg[0].childNodes).remove();
   
   force = d3.layout.force()
