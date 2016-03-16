@@ -160,6 +160,14 @@ function redraw(newNodes, text){
     paintNetwork(newNodes);
   }else{
     console.log("redraw null");
+    for(key in sourceIndexArray){
+      if(sourceIndexArray[key] == sourceIndex){
+        sourceIndexArray.splice(key, 1);
+        break;
+      }else{
+        // do nothing
+      }
+    }
     document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
   }
 }
