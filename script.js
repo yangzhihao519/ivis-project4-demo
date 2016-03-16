@@ -230,9 +230,10 @@ function paintNetwork(newNodes){
 
   node.append("circle")
       .attr("class", function(d){return d.source === true ? "source" : null})
+      .attr("fill", function(d){
+        return sourceIndexArray.indexOf(d.index) != -1 ? "#DE6F06" : "#FF9814";
+      })
       .attr("r",function(d){
-        console.log("circle");
-        console.log(sourceIndexArray.indexOf(d.index));
         return sourceIndexArray.indexOf(d.index) != -1 ? 15 : 8;
       });
 
