@@ -227,9 +227,9 @@ function paintNetwork(newNodes){
       return o.source.index == d.index || o.target.index == d.index ? "red" : "gray";
     })
     .style("stroke-width", function(o) { 
-      var weight = Math.sqrt(d.weight);
-      console.log("weight: "+weight);
-      return o.source.index == d.index || o.target.index == d.index ? weight*2 : 0.5;
+      // var weight = Math.sqrt(d.weight);
+      // console.log("weight: "+weight);
+      return o.source.index == d.index || o.target.index == d.index ? 2 : 0.5;
     });
 
     var c = svg.selectAll('circle');
@@ -237,9 +237,9 @@ function paintNetwork(newNodes){
       return isConnected(d, o) ? "red" : "white";
     })
     .style("stroke-width", function(o) { 
-      var weight = Math.sqrt(d.weight);
-      console.log("weight: "+weight);
-      return isConnected(d, o) ? weight*2 : 0.5;
+      // var weight = Math.sqrt(d.weight);
+      // console.log("weight: "+weight);
+      return isConnected(d, o) ? 2 : 0.5;
     });
   }
 
