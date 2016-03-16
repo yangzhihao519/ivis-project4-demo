@@ -62,10 +62,7 @@ function fetchData(text, callback) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
   //  externallinks|sections|revid|displaytitle|iwlinks|properties'
-<<<<<<< HEAD
-=======
-  //console.log("fetchData: "+text);
->>>>>>> origin/master
+
   
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
 
@@ -201,8 +198,8 @@ function paintNetwork(newNodes){
     for(key in newlinks){
       links.push(newlinks[key]);
     }
-    console.log(nodes);
-    console.log(links);
+    //console.log(nodes);
+    //console.log(links);
     nodes[0].source = true;
   }else{
     // source = nodes.map(function(n){return n.name}).indexOf(newNodes[0].name);
@@ -231,20 +228,13 @@ function paintNetwork(newNodes){
   .start();
 
   var link = svg.selectAll(".link")
-<<<<<<< HEAD
-  .data(links)
-  .enter().append("line")
-  .attr("class", "link")
-  .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
-  .style("stroke", "black");
-=======
                 .data(links)
                 .enter().append("line")
                 .attr("class", "link")
                 // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
-                .style("stroke-width", function(d) { return 5*Math.sqrt(d.weight); })
+                .style("stroke-width", function(d) { return 2*Math.sqrt(d.weight); })
                 .style("stroke", "#FFCF9E");
->>>>>>> origin/master
+
 
   var node = svg.selectAll(".node")
   .data(nodes)
@@ -253,16 +243,6 @@ function paintNetwork(newNodes){
   .call(force.drag);
 
   node.append("circle")
-<<<<<<< HEAD
-  .attr("class", function(d){return d.source === true ? "source" : null})
-  .attr("r",10);
-
-  node.append("text")
-  .attr("dx", 12)
-  .attr("dy", ".35em")
-  .attr("class", function(d){return d.source === true ? "sourceName" : null})
-  .text(function(d) { return d.name });
-=======
       .attr("class", function(d){return d.source === true ? "source" : null})
       .attr("fill", function(d){
         return sourceIndexArray.indexOf(d.index) != -1 ? "#DE6F06" : "#FF9814";
@@ -278,7 +258,6 @@ function paintNetwork(newNodes){
       .attr("class","textColor")
       .attr("class", function(d){return d.source === true ? "sourceName" : null})
       .text(function(d) { return d.name });
->>>>>>> origin/master
 
   node.on("click", switchNode)
   .on("dblclick", function(d) { if(node == d){window.open("https://en.wikipedia.org/wiki/" + d.name);}})
@@ -300,6 +279,9 @@ function paintNetwork(newNodes){
     var t = svg.selectAll("text");
     t.style("font-weight", function(o) {
       return isConnected(d, o) ? "bold" : "normal";
+    })
+    .style("font-size",function(o){
+      return isConnected(d, o) ? "20px" : "11px";
     });
 
     var l = svg.selectAll(".link");
@@ -327,11 +309,14 @@ function paintNetwork(newNodes){
     //console.log("exitHighlight");
 
     var t = svg.selectAll("text");
-    t.style("font-weight", "normal");
+    t.style("font-weight", "normal")
+    .style("font-size", function(d){
+      return sourceIndexArray.indexOf(d.index) != -1 ? "20px" : "10px";
+    });
 
     var l = svg.selectAll(".link");
     l.style("stroke", "#FFCF9E")
-    .style("stroke-width", function(o) { return 5*Math.sqrt(o.weight); })
+    .style("stroke-width", function(o) { return 2*Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
     c.style("stroke", "#FF9814")
