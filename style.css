@@ -110,7 +110,7 @@ text.parent {
 }
 
 circle {
-  r:8;
+  /*r:8;*/
   fill: #FF9814;
  /* stroke: #FFCF9E;
   stroke-width:5px;*/

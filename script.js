@@ -230,7 +230,11 @@ function paintNetwork(newNodes){
 
   node.append("circle")
       .attr("class", function(d){return d.source === true ? "source" : null})
-      .attr("r",10);
+      .attr("r",function(d){
+        console.log("circle");
+        console.log(sourceIndexArray.indexOf(d.index));
+        return sourceIndexArray.indexOf(d.index) != -1 ? 15 : 8;
+      });
 
   node.append("text")
       .attr("dx", 12)
