@@ -61,6 +61,41 @@ function fetchData(text, callback) {
   console.log("fetchData: "+text);
   
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
+
+  mwjs.send({action: 'parse', page: text, section: "0", prop: 'text'},
+    function (data) {
+      'use strict';
+      
+      // Extract the text
+      var rawText = data.parse.text['*']
+
+      // Find position of first <p>
+      var frontIndex = rawText.search("<p>");
+
+      // Find position of last <p>
+      var endIndex = rawText.lastIndexOf("</p>");
+      
+      // Remove all garble stuff before the first <p> and
+      // remove all garble stuff after the first <!-- (including it)
+      var trimmedText = rawText.slice(frontIndex, endIndex + 4);
+      
+      // Fix so all links redirect to wikipedia correctly
+      trimmedText = trimmedText.replace(/href="/g,'href="https://en.wikipedia.org');
+      
+      // Replace this line with a call to a function that
+      // updates the "introduction info"-window
+
+      // Capitalise the first letter
+      var displayText = text;
+      displayText = displayText.charAt(0).toUpperCase() + displayText.slice(1);
+
+      // show title
+      document.getElementById("introTitle").innerHTML = displayText;
+
+      // show introduction
+      document.getElementById("introduction").innerHTML = trimmedText;
+    }
+  );
   
   mwjs.send({action: 'parse', page: text, prop: 'sections'},
     function (data) {
@@ -70,8 +105,10 @@ function fetchData(text, callback) {
       var see_also_byteoffset = 0;      // Set default value
       var pageid = 'null';          // Set default value
       
-      // Extract the array and find the "See also" section number
+      
       var sections_array = data.parse.sections;
+
+      // Extract the array and find the "See also" section number
       var i = 0, LENGTH = sections_array.length;
       while (i < LENGTH) {
         if (sections_array[i].line == 'See also') {
@@ -113,7 +150,7 @@ function fetchData(text, callback) {
         );
       }
     }
-    );
+  );
 }
 
 function redraw(newNodes, text){
@@ -263,8 +300,10 @@ function paintNetwork(newNodes){
     //this line prevents the click-event to occur if there already is a drag-event
     if (d3.event.defaultPrevented) return;
 
-    console.log(d.index);
-    console.log(sourceIndexArray);
+    // console.log(d.index);
+    // console.log(sourceIndexArray);
+
+    document.getElementById("pageSearch").value = "";
 
     if(sourceIndexArray.indexOf(d.index) != -1){
       // this node is one of the source nodes
