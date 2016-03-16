@@ -1,6 +1,7 @@
 body {
   font: 10px sans-serif;
-  font-family: 'Crete Round', serif;
+  /*font-family: 'Crete Round', serif;*/
+  font-family: 'Arial', Verdana, sans-serif;
 }
 
 /*Home Page*/
@@ -71,8 +72,10 @@ body {
 
 .line {
   fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+ /* stroke: steelblue;*/
+  stroke: #FFCF9E;
+  /*stroke-width: 1.5px;*/
+  stroke-width: 5px;
 }
 
 .image {
@@ -80,7 +83,8 @@ body {
 }
 
 .source{
-  fill: #abc;
+  /*fill: #abc;*/
+  fill: #DE6F06;
   r: 25;
 }
 
@@ -91,18 +95,25 @@ body {
 
 text {
   font-size: 11px;
-  background-color: #FD6721;
+/*  color: #5C2700;*/
+  /*background-color: #FD6721;*/
   pointer-events: none;
+}
+
+.textColor{
+  color: #5C2700;
 }
 
 text.parent {
   fill: #1f77b4;
+  /*fill:#5C2700;*/
 }
 
 circle {
   r:8;
-  fill: #cba;
-  stroke: #999;
+  fill: #FF9814;
+ /* stroke: #FFCF9E;
+  stroke-width:5px;*/
   pointer-events: all;
 }
 

@@ -58,7 +58,7 @@ function fetchData(text, callback) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
   //  externallinks|sections|revid|displaytitle|iwlinks|properties'
-  console.log("fetchData: "+text);
+  //console.log("fetchData: "+text);
   
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
 
@@ -218,8 +218,9 @@ function paintNetwork(newNodes){
                 .data(links)
                 .enter().append("line")
                 .attr("class", "link")
-                .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
-                .style("stroke", "black");
+                // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
+                .style("stroke-width", function(d) { return 5*Math.sqrt(d.weight); })
+                .style("stroke", "#FFCF9E");
 
   var node = svg.selectAll(".node")
                 .data(nodes)
@@ -234,6 +235,8 @@ function paintNetwork(newNodes){
   node.append("text")
       .attr("dx", 12)
       .attr("dy", ".35em")
+      // .attr("color", "#5C2700")
+      .attr("class","textColor")
       .attr("class", function(d){return d.source === true ? "sourceName" : null})
       .text(function(d) { return d.name });
 
@@ -252,7 +255,7 @@ function paintNetwork(newNodes){
   });
 
   function setHighlight(d){
-    console.log("setHighlight");
+    //console.log("setHighlight");
 
     var t = svg.selectAll("text");
     t.style("font-weight", function(o) {
@@ -261,22 +264,22 @@ function paintNetwork(newNodes){
 
     var l = svg.selectAll(".link");
     l.style("stroke", function(o) {
-      return o.source.index == d.index || o.target.index == d.index ? "red" : "gray";
+      return o.source.index == d.index || o.target.index == d.index ? "#5C2700" : "#FF9814";
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
       // console.log("weight: "+weight);
-      return o.source.index == d.index || o.target.index == d.index ? 2 : 0.5;
+      return o.source.index == d.index || o.target.index == d.index ? 5 : 1.5;
     });
 
     var c = svg.selectAll('circle');
     c.style("stroke", function(o) {
-      return isConnected(d, o) ? "red" : "white";
+      return isConnected(d, o) ? "#5C2700" : "#FF9814";
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
       // console.log("weight: "+weight);
-      return isConnected(d, o) ? 2 : 0.5;
+      return isConnected(d, o) ? 5 : 1.5;
     });
   }
 
@@ -287,12 +290,12 @@ function paintNetwork(newNodes){
     t.style("font-weight", "normal");
 
     var l = svg.selectAll(".link");
-    l.style("stroke", "black")
-    .style("stroke-width", function(o) { return Math.sqrt(o.weight); })
+    l.style("stroke", "#FFCF9E")
+    .style("stroke-width", function(o) { return 5*Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
-    c.style("stroke", "black")
-    .style("stroke-width", 0.5);
+    c.style("stroke", "#FF9814")
+    .style("stroke-width", 0);
   }
 
   // re-fetch data
