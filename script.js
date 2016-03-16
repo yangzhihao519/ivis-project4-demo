@@ -251,6 +251,7 @@ function paintNetwork(newNodes){
 
   force.nodes(nodes)
   .links(links)
+  .linkDistance(150)
   .start();
 
   var link = container.selectAll(".link")
