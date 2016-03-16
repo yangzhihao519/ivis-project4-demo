@@ -158,6 +158,7 @@ function redraw(newNodes, text){
     var existedSvg = document.getElementsByTagName("svg");
     d3.selectAll(existedSvg[0].childNodes).remove();
     paintNetwork(newNodes);
+    document.getElementById("space").innerHTML = "";
   }else{
     console.log("redraw null");
     for(key in sourceIndexArray){
