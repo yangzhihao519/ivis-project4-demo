@@ -71,8 +71,10 @@ body {
 
 .line {
   fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+ /* stroke: steelblue;*/
+  stroke: #FFCF9E;
+  /*stroke-width: 1.5px;*/
+  stroke-width: 5px;
 }
 
 .image {
@@ -80,7 +82,8 @@ body {
 }
 
 .source{
-  fill: #abc;
+  /*fill: #abc;*/
+  fill: #DE6F06;
   r: 25;
 }
 
@@ -101,8 +104,9 @@ text.parent {
 
 circle {
   r:8;
-  fill: #cba;
-  stroke: #999;
+  fill: #FF9814;
+ /* stroke: #FFCF9E;
+  stroke-width:5px;*/
   pointer-events: all;
 }
 

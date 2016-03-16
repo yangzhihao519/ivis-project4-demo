@@ -181,8 +181,9 @@ function paintNetwork(newNodes){
                 .data(links)
                 .enter().append("line")
                 .attr("class", "link")
-                .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
-                .style("stroke", "black");
+                // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
+                .style("stroke-width", function(d) { return 5*Math.sqrt(d.weight); })
+                .style("stroke", "#FFCF9E");
 
   var node = svg.selectAll(".node")
                 .data(nodes)
@@ -224,22 +225,22 @@ function paintNetwork(newNodes){
 
     var l = svg.selectAll(".link");
     l.style("stroke", function(o) {
-      return o.source.index == d.index || o.target.index == d.index ? "red" : "gray";
+      return o.source.index == d.index || o.target.index == d.index ? "#5C2700" : "#FF9814";
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
       // console.log("weight: "+weight);
-      return o.source.index == d.index || o.target.index == d.index ? 2 : 0.5;
+      return o.source.index == d.index || o.target.index == d.index ? 5 : 1.5;
     });
 
     var c = svg.selectAll('circle');
     c.style("stroke", function(o) {
-      return isConnected(d, o) ? "red" : "white";
+      return isConnected(d, o) ? "#5C2700" : "#FF9814";
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
       // console.log("weight: "+weight);
-      return isConnected(d, o) ? 2 : 0.5;
+      return isConnected(d, o) ? 5 : 1.5;
     });
   }
 
@@ -250,12 +251,12 @@ function paintNetwork(newNodes){
     t.style("font-weight", "normal");
 
     var l = svg.selectAll(".link");
-    l.style("stroke", "black")
-    .style("stroke-width", function(o) { return Math.sqrt(o.weight); })
+    l.style("stroke", "#FFCF9E")
+    .style("stroke-width", function(o) { return 5*Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
-    c.style("stroke", "black")
-    .style("stroke-width", 0.5);
+    c.style("stroke", "#FF9814")
+    .style("stroke-width", 0);
   }
 
   // re-fetch data
