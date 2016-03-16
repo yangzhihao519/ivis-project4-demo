@@ -40,7 +40,7 @@
       </div><!-- /.col-lg-6 -->
     </div>
 
-    <!-- Deatail Page -->
+    <!-- Detail Page -->
     <div id="searchpg">
       <div class="col-md-3" id="searchSidebar">
       <!--   <h1> WikiPedro </h1> -->
@@ -57,12 +57,29 @@
           <h4>Introduction</h4>
           <p id="introduction">some introduction here</p>
           <br/>
-          <button type="button" class="btn btn-default">Add to my library</button>
+          <button type="button" class="btn btn-default">Add to library</button>
           <br/> <br/>
-          <button type="button" class="btn btn-default">See my library</button>
+          <button type="button" class="btn btn-default" id="seeMyLibraryButton">My library</button>
           <br/> <br/>
       </div>
       <div class="col-md-9" id="displayGraph">
+      </div>
+    </div>
+
+    <!-- Library Page -->
+    <div id="librarypg">
+      <div class="col-md-1">
+        <br/>
+        <button type="button" class="btn btn-default" id="backToDetailPageButton">Back</button>
+      </div>
+      <div class="col-md-10" id="libraryGraph">
+      </div>
+       <div class="col-md-1">
+        <br/>
+        <button type="button" class="btn btn-default">Save to local</button>
+        <br/> <br/>
+        <button type="button" class="btn btn-default">Open from local</button>
+        <br/> <br/>
       </div>
     </div>
   </div>
@@ -72,12 +89,27 @@
 $(document).ready(function(){
   // Homepage
   $("#searchpg").hide();
+  $("#librarypg").hide();
 
   //Detail Page
   $("#searchButton").click(function(){
     $("#homepg").hide();
     $("#searchpg").show();
+    $("#librarypg").hide();
   });
+
+  $("#seeMyLibraryButton").click(function(){
+    $("#homepg").hide();
+    $("#searchpg").hide();
+    $("#librarypg").show();
+  });
+
+  $("#backToDetailPageButton").click(function(){
+    $("#homepg").hide();
+    $("#searchpg").show();
+    $("#librarypg").hide();
+  });
+
 });
 </script>
 
