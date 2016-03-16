@@ -23,10 +23,16 @@ body {
 
 /* Search Page Sidebar */
 #searchpg{
-  margin-top: 10px;
-  margin-bottom: 50px;
+  /*margin-top: 10px;
+  margin-bottom: 50px;*/
   margin-left: 5%;
   margin-right: 5%;
+
+}
+
+#inputField{
+  width: 95%;
+  margin: auto;
 }
 
 .intro{
@@ -38,8 +44,8 @@ body {
 
 .WikiPedroLogo{
   font-family: 'Crete Round', serif;
-  font-size: 25px;
-  float: center;
+  font-size: 35px;
+  text-align: center;
   padding-top: 20px;
   padding-left: 20px;
   padding-bottom: 30px;
@@ -50,7 +56,14 @@ body {
   /* position: absolute; */
   background-color: rgba(185,122,87,0.5);
   height: 100%;
-  width: 25%;}
+  width: 25%;
+}
+
+.lib_btn{
+  width: 95%;
+  height: 280px;
+  margin: auto;
+}
 
 .savebtn{
   position: absolute;

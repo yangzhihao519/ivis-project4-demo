@@ -21,18 +21,34 @@
           background-image:url(images/background.png);
           background-size: 100%, 100%;
           margin-left: 15px;
-      }</style>
+      }
+    </style>
+
+    <script type="text/javascript">
+    function searchCheck(e)
+      {   
+          // look for window.event in case event isn't passed in
+          e = e || window.event;
+          if (e.keyCode == 13)
+          {
+              document.getElementById('searchButton').click();
+              return false;
+          }
+          return true;
+      }
+
+    </script>
 
    </head>
 
 <body>
-  <div class="container">
+<!--   <div class="container"> -->
     <!-- Home Page -->
     <div class="content" id="homepg">
      <div class="WikiPedro"><span>Wiki</span><span style="color:#FD6721">Pedro</span></div>
        <div class="col-lg-12 searchBox">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for..." id="homeSearch">
+          <input type="text" class="form-control" placeholder="Search for..." id="homeSearch" onkeypress="return searchCheck(event)">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" id="searchButton" onclick="makeGraph()"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
           </span>
@@ -42,20 +58,19 @@
 
     <!-- Detail Page -->
     <div id="searchpg">
-      <div class="col-md-3" id="searchSidebar">
+      <div class="col-md-5" id="searchSidebar">
       <!--   <h1> WikiPedro </h1> -->
         <div class="WikiPedroLogo"><span style="color:rgb(98,98,98)">Wiki</span><span style="color:#FD6721">Pedro</span></div>
           <div class="input-group" id="inputField">
-            <input type="text"  class="form-control" name="Field" id="pageSearch">
+            <input type="text"  class="form-control" name="Field" id="pageSearch" onkeypress="return searchCheck(event)" >
             <div class="input-group-btn">
-            <button type="button" class="btn btn-default" onclick="makeGraph()">Fetch</button>
+            <button type="button" class="btn btn-default" onclick="makeGraph()" id="searchButton">Fetch</button>
             </div>
           </div>
           <p id="space"></p>
           <p id="space2"></p>
           <br/>
           <!-- <h4 id="introTitle"></h4> -->
-          <h4>Introduction</h4>
           <div class="intro panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title" id="introTitle">Name</h3>
@@ -68,30 +83,35 @@
           <br/>
         <!--   <button type="button" class="btn btn-default">Add to library</button> -->
           
-
-        <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          Add to library
-        </button>
-        <div class="collapse" id="collapseExample">
-          <div class="well">
-            <form id="categoryForm">
-              <input type="radio" name="category" value="Default" aria-label="..."> Default <br>
-              <input type="radio" name="category" value="Information Visualization" aria-label="..."> Information Visualization<br>
-            </form>
-            <div class="savebtn">
-              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="" onclick="addToLibrary()">
-               save
-              </button>
-            </div>
+        <div class="row lib_btn">
+         <div class="col-md-12">
+            <br/> <br/>
+              <button type="button" class="btn btn-default" id="seeMyLibraryButton" onclick="makeLibrary()" >See My Library<span class="
+glyphicon glyphicon-chevron-right"></span></button>
+            <br/> <br/>
           </div>
-          
-        </div>
-
-          <br/> <br/>
-          <button type="button" class="btn btn-default" id="seeMyLibraryButton" onclick="makeLibrary()">My library</button>
-          <br/> <br/>
+          <div class="col-md-12">
+            <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Add to library
+            </button>
+            <div class="collapse" id="collapseExample">
+              <div class="well">
+                <form id="categoryForm">
+                  <input type="radio" name="category" value="Default" aria-label="..."> Default <br>
+                  <input type="radio" name="category" value="Information Visualization" aria-label="..."> Information Visualization<br>
+                </form>
+                <div class="savebtn">
+                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="" onclick="addToLibrary()">
+                   save
+                  </button>
+                </div>
+              </div> 
+            </div>
+          </div> 
+        </div>  
       </div>
-      <div class="col-md-9" id="displayGraph">
+
+      <div class="col-md-7" id="displayGraph">
       </div>
     </div>
 
@@ -111,7 +131,7 @@
         <br/> <br/>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
  
 <!-- Page onload -->
 <script type="text/javascript">

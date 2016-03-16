@@ -1,5 +1,5 @@
 // init 
-var width = 750,
+var width = 900,
 height = window.innerHeight;
 
 var zoom = d3.behavior.zoom()
