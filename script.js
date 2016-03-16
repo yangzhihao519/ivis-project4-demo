@@ -2,9 +2,22 @@
 var width = 750,
 height = window.innerHeight;
 
+var zoom = d3.behavior.zoom()
+              .scaleExtent([0.5, 10])
+              .on("zoom", zoomed);
+
+var drag = d3.behavior.drag()
+              .origin(function(d) { return d; })
+              .on("dragstart", dragstarted)
+              .on("drag", dragged)
+              .on("dragend", dragended);
+
 var svg = d3.select("#displayGraph").append("svg")
 .attr("width", width)
-.attr("height", height);
+.attr("height", height)
+.call(zoom);;
+
+var container = svg.append("g");
 
 var force = d3.layout.force()
 .gravity(.05)
@@ -33,13 +46,16 @@ function makeGraph(){
     document.getElementById("pageSearch").value = text;
   }
 
-  var existedSvg = document.getElementsByTagName("svg");
+  // console.log(existedSvg);
+  // console.log(existedSvg[0].childNodes);
+  // console.log(existedSvg[0].childNodes[0].childNodes);
 
-  //console.log(existedSvg);
-  //console.log(existedSvg[0].childNodes);
+  // set space to empty
   document.getElementById("space").innerHTML = "";
   
-  d3.selectAll(existedSvg[0].childNodes).remove();
+  // remove the current lines and nodes
+  var existedSvg = document.getElementsByTagName("svg");
+  d3.selectAll(existedSvg[0].childNodes[0].childNodes).remove();
   
   force = d3.layout.force()
   .gravity(.05)
@@ -56,6 +72,8 @@ function makeGraph(){
   // get the search text and draw a new graph
   // var text = document.getElementById("pageSearch").value;
   fetchData(text, paintNetwork);
+  console.log(existedSvg);
+  console.log(existedSvg[0].childNodes);
 }
 
 // call Wiki API to fetch data
@@ -160,12 +178,18 @@ function fetchData(text, callback) {
 
 function redraw(newNodes, text){
   if(newNodes){
-    var existedSvg = document.getElementsByTagName("svg");
-    d3.selectAll(existedSvg[0].childNodes).remove();
-    paintNetwork(newNodes);
+    // set space to empty
     document.getElementById("space").innerHTML = "";
+    // remove the current lines and nodes
+    var existedSvg = document.getElementsByTagName("svg");
+    d3.selectAll(existedSvg[0].childNodes[0].childNodes).remove();
+    // draw new codes
+    paintNetwork(newNodes);
+    
   }else{
     console.log("redraw null");
+
+    // remove the node index from sourceIndexArray
     for(key in sourceIndexArray){
       if(sourceIndexArray[key] == sourceIndex){
         sourceIndexArray.splice(key, 1);
@@ -174,6 +198,7 @@ function redraw(newNodes, text){
         // do nothing
       }
     }
+    // set space text
     document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
   }
 }
@@ -228,7 +253,7 @@ function paintNetwork(newNodes){
   .links(links)
   .start();
 
-  var link = svg.selectAll(".link")
+  var link = container.selectAll(".link")
                 .data(links)
                 .enter().append("line")
                 .attr("class", "link")
@@ -237,11 +262,11 @@ function paintNetwork(newNodes){
                 .style("stroke", "#FFCF9E");
 
 
-  var node = svg.selectAll(".node")
-  .data(nodes)
-  .enter().append("g")
-  .attr("class", "node")
-  .call(force.drag);
+  var node = container.selectAll(".node")
+                      .data(nodes)
+                      .enter().append("g")
+                      .attr("class", "node")
+                      .call(drag);
 
   node.append("circle")
       .attr("class", function(d){return d.source === true ? "source" : null})
@@ -356,6 +381,28 @@ function paintNetwork(newNodes){
 
 function isConnected(a, b) {
   return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+}
+
+function zoomed() {
+  container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+function dragstarted(d) {
+  d3.event.sourceEvent.stopPropagation();
+  
+  d3.select(this).classed("dragging", true);
+  force.start();
+}
+
+function dragged(d) {
+  
+  d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  
+}
+
+function dragended(d) {
+  
+  d3.select(this).classed("dragging", false);
 }
 
 
