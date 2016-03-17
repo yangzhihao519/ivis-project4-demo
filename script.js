@@ -380,7 +380,8 @@ function paintNetwork(newNodes){
     // console.log(sourceIndexArray);
 
     document.getElementById("pageSearch").value = "";
-
+    document.getElementById("space").innerHTML = "";
+    
     var text = d3.select(this).text();
 
     // fect the data of wikipedia
