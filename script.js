@@ -537,6 +537,13 @@ function makeLibrary(){
 function addToLibrary(){
   var category = $('input[name=category]:checked', "#categoryForm").val();
 
+  if(category === "Other"){
+    category = $("#chooseCategory").val();
+    var newCategory = {"name": category, "children": []};
+    library.children.push(newCategory);
+    $("#categoryForm").append('<input type="radio" name="category" value="' + category + '"> ' + category + '<br>');
+  };
+
   var libraryObject = {"name": nodes[sourceIndex].name, "size": nodes[sourceIndex].weight};
   //library.children.push(libraryObject);
 
