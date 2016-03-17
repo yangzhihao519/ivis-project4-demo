@@ -99,13 +99,7 @@ function makeGraph(){
   console.log(existedSvg[0].childNodes);
 }
 
-// call Wiki API to fetch data
-function fetchIntroData(text) {
-  // These are all the different things we can ask wikipedia about for the prop:
-  // 'text|langlinks|categories|links|templates|images|
-  //  externallinks|sections|revid|displaytitle|iwlinks|properties'
-  
-
+function fetchIntroData(text){
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
 
   mwjs.send({action: 'parse', page: text, section: "0", prop: 'text'},
@@ -150,7 +144,7 @@ function fetchIntroData(text) {
         document.getElementById("wikiLink").innerHTML = "<a href=\"https://en.wikipedia.org/wiki/"+ text +"\" target=\"_blank\">Read on WikiPedia</a>";
         document.getElementById("addIcon").innerHTML = "<img src=\"images/add.png\">";
         document.getElementById("addLib").innerHTML = "<a  data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\" >Add to Library</a>";        
-        document.getElementById("webIcon").style.visibility = "visible";
+        //document.getElementById("webIcon").style.visibility = "visible";
 
       }else{
 
@@ -162,8 +156,11 @@ function fetchIntroData(text) {
         document.getElementById("introduction").innerHTML = "";
 
         document.getElementById("wikiLink").innerHTML = "";
+        document.getElementById("webIcon").innerHTML = "";
+        document.getElementById("addIcon").innerHTML = "";
+        document.getElementById("addLib").innerHTML = "";a
 
-        document.getElementById("webIcon").style.visibility = "hidden";;
+        //document.getElementById("webIcon").style.visibility = "hidden";;
       }
     }
   );
@@ -314,7 +311,6 @@ function paintNetwork(newNodes){
   .linkDistance(80)
   .start();
 
-
   var link = container.selectAll(".link")
                 .data(links)
                 .enter().append("line")
@@ -322,6 +318,7 @@ function paintNetwork(newNodes){
                 // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
                 .style("stroke-width", function(d) { return 2*Math.sqrt(d.weight); })
                 .style("stroke", lineClr);
+
 
 
   var node = container.selectAll(".node")
@@ -476,9 +473,15 @@ function dragended(d) {
 
 function makeLibrary(){
 
+  var knitting = {"name": "Knitting", "size": 10};
+  var hello = {"name": "Hello", "size": 7};
+  var france = {"name": "France", "size": 1};
+
+  var bubble = {"name": "Category 1", "children": [knitting, hello, france]};
+
   var w = width,
   h = height,
-  r = 720,
+  r = 560,
   x = d3.scale.linear().range([0, r]),
   y = d3.scale.linear().range([0, r]),
   node,
@@ -540,6 +543,7 @@ function makeLibrary(){
     t.selectAll("text")
     .attr("x", function(d) { return x(d.x); })
     .attr("y", function(d) { return y(d.y); })
+    .style("font-size","15px")
     .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
 
     node = d;
@@ -613,7 +617,6 @@ function addToLibrary(){
   libraryCategory.children.push(libraryObject);
   //Cookies.set('library', JSON.stringify(library));
   //console.log(libraryObject);
-
 }
 
 
