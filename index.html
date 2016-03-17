@@ -18,13 +18,35 @@
 
     <style type="text/css">
     body{
-          background-image:url(images/background.png);
-          /*background-size: 100%, auto;*/
-          background-size: 700px,auto;
-          top: 0;
-          left: 0;
-          /*margin-left: 15px;*/
-      }
+      background-image:url(images/background.png);
+      background-size: 100%, 100%;
+      margin-left: 15px;
+    }
+    #librarypg text.parent {
+      fill: #1f77b4;
+    }
+
+    #librarypg circle {
+      fill: #ccc;
+      stroke: #999;
+      pointer-events: all;
+    }
+
+    #librarypg circle.parent {
+      fill: #1f77b4;
+      fill-opacity: .1;
+      stroke: steelblue;
+    }
+
+    #librarypg circle.parent:hover {
+      stroke: #ff7f0e;
+      stroke-width: .5px;
+    }
+
+    #librarypg circle.child {
+      pointer-events: none;
+    }
+    
     </style>
 
     <script type="text/javascript">
