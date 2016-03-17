@@ -3,7 +3,7 @@ var width = 800,
 height = window.innerHeight;
 
 var zoom = d3.behavior.zoom()
-              .scaleExtent([0.5, 10])
+              .scaleExtent([0.1, 10])
               .on("zoom", zoomed);
 
 var drag = d3.behavior.drag()
@@ -71,54 +71,72 @@ function makeGraph(){
 
   // get the search text and draw a new graph
   // var text = document.getElementById("pageSearch").value;
-  fetchData(text, paintNetwork);
+  fetchIntroData(text);
+  fetchSeeAlsoData(text, redraw);
   console.log(existedSvg);
   console.log(existedSvg[0].childNodes);
 }
 
-// call Wiki API to fetch data
-function fetchData(text, callback) {
-  // These are all the different things we can ask wikipedia about for the prop:
-  // 'text|langlinks|categories|links|templates|images|
-  //  externallinks|sections|revid|displaytitle|iwlinks|properties'
-
-  
+function fetchIntroData(text){
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
 
   mwjs.send({action: 'parse', page: text, section: "0", prop: 'text'},
     function (data) {
       'use strict';
-      
-      // Extract the text
-      var rawText = data.parse.text['*']
 
-      // Find position of first <p>
-      var frontIndex = rawText.search("<p>");
+      // console.log("data");
+      // console.log(data);
+      // console.log(data.parse);
+      // console.log(data.parse.text);
 
-      // Find position of last <p>
-      var endIndex = rawText.lastIndexOf("</p>");
-      
-      // Remove all garble stuff before the first <p> and
-      // remove all garble stuff after the first <!-- (including it)
-      var trimmedText = rawText.slice(frontIndex, endIndex + 4);
-      
-      // Fix so all links redirect to wikipedia correctly
-      trimmedText = trimmedText.replace(/href="/g,'href="https://en.wikipedia.org');
-      
-      // Replace this line with a call to a function that
-      // updates the "introduction info"-window
+      if(data.parse){
+        // Extract the text
+        var rawText = data.parse.text['*']
 
-      // Capitalise the first letter
-      var displayText = text;
-      displayText = displayText.charAt(0).toUpperCase() + displayText.slice(1);
+        // Find position of first <p>
+        var frontIndex = rawText.search("<p>");
 
-      // show title
-      document.getElementById("introTitle").innerHTML = displayText;
+        // Find position of last <p>
+        var endIndex = rawText.lastIndexOf("</p>");
+        
+        // Remove all garble stuff before the first <p> and
+        // remove all garble stuff after the first <!-- (including it)
+        var trimmedText = rawText.slice(frontIndex, endIndex + 4);
+        
+        // Fix so all links redirect to wikipedia correctly
+        trimmedText = trimmedText.replace(/href="/g,'href="https://en.wikipedia.org');
+        
+        // Replace this line with a call to a function that
+        // updates the "introduction info"-window
 
-      // show introduction
-      document.getElementById("introduction").innerHTML = trimmedText;
+        // Capitalise the first letter
+        var displayText = text;
+        displayText = displayText.charAt(0).toUpperCase() + displayText.slice(1);
+
+        // show title
+        document.getElementById("introTitle").innerHTML = displayText;
+
+        // show introduction
+        document.getElementById("introduction").innerHTML = trimmedText;
+      }else{
+        document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!';
+
+        // empty title
+        document.getElementById("introTitle").innerHTML = "";
+
+        // empty introduction
+        document.getElementById("introduction").innerHTML = "";
+      }
     }
   );
+}
+
+// call Wiki API to fetch data
+function fetchSeeAlsoData(text, callback) {
+  // These are all the different things we can ask wikipedia about for the prop:
+  // 'text|langlinks|categories|links|templates|images|
+  //  externallinks|sections|revid|displaytitle|iwlinks|properties'
+  var mwjs = new MediaWikiJS('https://en.wikipedia.org');
   
   mwjs.send({action: 'parse', page: text, prop: 'sections'},
     function (data) {
@@ -128,49 +146,52 @@ function fetchData(text, callback) {
       var see_also_byteoffset = 0;      // Set default value
       var pageid = 'null';          // Set default value
       
-      
-      var sections_array = data.parse.sections;
+      if(data.parse){
+        var sections_array = data.parse.sections;
 
-      // Extract the array and find the "See also" section number
-      var i = 0, LENGTH = sections_array.length;
-      while (i < LENGTH) {
-        if (sections_array[i].line == 'See also') {
-          title = data.parse.title;
-          see_also_index = sections_array[i].index;
-          see_also_byteoffset = sections_array[i].byteoffset;
-          pageid = data.parse.pageid;
-          break;
-        }
-        i += 1;
-      }
-
-      // If section do not exist, print error message
-      if (see_also_index == 'Not found') {
-        // document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
-        callback(null, text);
-      }
-      else {    // If section exists, do second data fetch
-        mwjs.send({action: 'parse', page: text, section: see_also_index, prop: 'links'},
-          function (data) {
-            'use strict';
-            
-            // Clean all links and store in array
-            var link_array = [];
-            i = 0;
-            LENGTH = data.parse.links.length;
-            while (i < LENGTH) {
-              link_array.push({"name":data.parse.links[i]['*'], "size":see_also_byteoffset/2});
-              i += 1;
-            }
-
-            var newNodes = [{"name": title}];
-            link_array.forEach(function(d){
-              newNodes.push({"name": d.name})
-            });
-
-            callback(newNodes);            
+        // Extract the array and find the "See also" section number
+        var i = 0, LENGTH = sections_array.length;
+        while (i < LENGTH) {
+          if (sections_array[i].line == 'See also') {
+            title = data.parse.title;
+            see_also_index = sections_array[i].index;
+            see_also_byteoffset = sections_array[i].byteoffset;
+            pageid = data.parse.pageid;
+            break;
           }
-          );
+          i += 1;
+        }
+
+        // If section do not exist, print error message
+        if (see_also_index == 'Not found') {
+          // document.getElementById("space").innerHTML = "\"" + text + "\"" + ' do not have a "See Also" section!';
+          callback(null, text);
+        }
+        else {    // If section exists, do second data fetch
+          mwjs.send({action: 'parse', page: text, section: see_also_index, prop: 'links'},
+            function (data) {
+              'use strict';
+              
+              // Clean all links and store in array
+              var link_array = [];
+              i = 0;
+              LENGTH = data.parse.links.length;
+              while (i < LENGTH) {
+                link_array.push({"name":data.parse.links[i]['*'], "size":see_also_byteoffset/2});
+                i += 1;
+              }
+
+              var newNodes = [{"name": title}];
+              link_array.forEach(function(d){
+                newNodes.push({"name": d.name})
+              });
+
+              callback(newNodes);            
+            }
+            );
+        }
+      }else{
+        document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!';
       }
     }
   );
@@ -251,6 +272,7 @@ function paintNetwork(newNodes){
 
   force.nodes(nodes)
   .links(links)
+  .charge(-1000)
   .linkDistance(150)
   .start();
 
@@ -360,6 +382,12 @@ function paintNetwork(newNodes){
 
     document.getElementById("pageSearch").value = "";
 
+    var text = d3.select(this).text();
+
+    // fect the data of wikipedia
+    fetchIntroData(text);
+
+    // fetch the data of see also words
     if(sourceIndexArray.indexOf(d.index) != -1){
       // this node is one of the source nodes
       // do nothing
@@ -373,8 +401,7 @@ function paintNetwork(newNodes){
       // console.log(this.parentNode);
       // console.log(this.parentNode.children);
 
-      // d3.selectAll(this.parentNode.children).remove();
-      fetchData(d3.select(this).text(), redraw);
+      fetchSeeAlsoData(text, redraw);
     }
   }
 }
