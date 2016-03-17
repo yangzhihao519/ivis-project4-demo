@@ -280,7 +280,7 @@ function paintNetwork(newNodes){
   force.nodes(nodes)
   .links(links)
   .charge(-1000)
-  .linkDistance(150)
+  .linkDistance(30)
   .start();
 
   var link = container.selectAll(".link")
@@ -290,6 +290,7 @@ function paintNetwork(newNodes){
                 // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
                 .style("stroke-width", function(d) { return 2*Math.sqrt(d.weight); })
                 .style("stroke", lineClr);
+
 
 
   var node = container.selectAll(".node")
@@ -388,7 +389,8 @@ function paintNetwork(newNodes){
     // console.log(sourceIndexArray);
 
     document.getElementById("pageSearch").value = "";
-
+    document.getElementById("space").innerHTML = "";
+    
     var text = d3.select(this).text();
 
     // fect the data of wikipedia
