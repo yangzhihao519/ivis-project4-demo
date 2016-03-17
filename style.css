@@ -4,6 +4,10 @@ body {
   font-family: 'Arial', Verdana, sans-serif;
 }
 
+a{
+  color: rgb(98,98,98);
+}
+
 /*Home Page*/
 .content{
   position: absolute;
@@ -92,14 +96,15 @@ body {
   background-color: rgba(128,128,128,0.3);
   /*height: 100%;*/
   width: 35%;
-  height: 700px;
+  height: 750px;
 }
 
 .lib_btn{
-  width: 95%;
+  width: 100%;
   height: 280px;
   margin: auto;
   margin-left: initial;
+  font-size: 12px;
 }
 
 .lib_btn img{
@@ -120,9 +125,25 @@ body {
 }
 
 .savebtn{
-  position: absolute;
+  position: relative;
+  margin-top: 10px;
+  margin-right: auto;
+  left: 35%;
 }
 
+.collapsing {
+  margin-top: 25px;
+}
+
+.collapse.in {
+  display: block;
+  margin-top: 25px;
+  margin-left: auto;
+}
+
+.well{
+  height: 135px;
+}
 /* Display */
 #GraphBox{
   width: 50%;

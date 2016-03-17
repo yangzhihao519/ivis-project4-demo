@@ -467,7 +467,7 @@ function makeLibrary(){
 
   var w = width,
   h = height,
-  r = 720,
+  r = 560,
   x = d3.scale.linear().range([0, r]),
   y = d3.scale.linear().range([0, r]),
   node,
@@ -529,6 +529,7 @@ function makeLibrary(){
     t.selectAll("text")
     .attr("x", function(d) { return x(d.x); })
     .attr("y", function(d) { return y(d.y); })
+    .style("font-size","15px")
     .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
 
     node = d;
