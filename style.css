@@ -23,16 +23,19 @@ body {
 
 /* Search Page Sidebar */
 #searchpg{
+  float: initial;
   /*margin-top: 10px;
   margin-bottom: 50px;*/
-  margin-left: 5%;
-  margin-right: 5%;
+/*  margin-left: 5%;
+  margin-right: 5%;*/
 
 }
 
 #inputField{
-  width: 95%;
-  margin: auto;
+  width: 50%;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
 }
 
 .intro{
@@ -40,6 +43,11 @@ body {
   height: 280px;
   overflow: overlay;
   margin: auto;
+}
+
+#introduction{
+  text-align: justify;
+
 }
 
 .WikiPedroLogo{
@@ -51,12 +59,30 @@ body {
   padding-bottom: 30px;
 }
 
-#searchSidebar{
+.searchSidebar{
   float: left;
+  position: relative;
+  /*background-color: rgba(185,1,87,0.5);*/
+  height: 100%;
+  width: 5%;
+  height: 700px;
+  padding-top: 50px;
+  padding-right: 0px;
+  padding-left: 5px;
+}
+
+.searchSidebar img{
+  height: 20px;
+  width: 20px;
+}
+
+#searchSidebar1{
+  position: relative;
   /* position: absolute; */
   background-color: rgba(185,122,87,0.5);
-  height: 100%;
-  width: 25%;
+  /*height: 100%;*/
+  width: 35%;
+  height: 700px;
 }
 
 .lib_btn{
@@ -70,11 +96,17 @@ body {
 }
 
 /* Display */
+#GraphBox{
+  width: 50%;
+  height: 700px;
+}
+
 #displayGraph{
-  border-style: ridge;
-  float: right;
+  position: static;
+  /*border-style: ridge;*/
+  float: left;
   height: 100%;
-  width: 75%;
+  width: 100%;
 }
 
 .axis path,
