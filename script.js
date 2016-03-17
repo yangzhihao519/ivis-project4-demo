@@ -272,7 +272,7 @@ function paintNetwork(newNodes){
   force.nodes(nodes)
   .links(links)
   .charge(-1000)
-  .linkDistance(150)
+  .linkDistance(30)
   .start();
 
   var link = container.selectAll(".link")
@@ -281,7 +281,7 @@ function paintNetwork(newNodes){
                 .attr("class", "link")
                 // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
                 .style("stroke-width", function(d) { return 2*Math.sqrt(d.weight); })
-                .style("stroke", "#FFCF9E");
+                .style("stroke", "#cccccc");
 
 
   var node = container.selectAll(".node")
@@ -363,7 +363,7 @@ function paintNetwork(newNodes){
     });
 
     var l = svg.selectAll(".link");
-    l.style("stroke", "#FFCF9E")
+    l.style("stroke", "#cccccc")
     .style("stroke-width", function(o) { return 2*Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
