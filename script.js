@@ -71,18 +71,13 @@ function makeGraph(){
 
   // get the search text and draw a new graph
   // var text = document.getElementById("pageSearch").value;
-  fetchData(text, paintNetwork);
+  fetchIntroData(text);
+  fetchSeeAlsoData(text, paintNetwork);
   console.log(existedSvg);
   console.log(existedSvg[0].childNodes);
 }
 
-// call Wiki API to fetch data
-function fetchData(text, callback) {
-  // These are all the different things we can ask wikipedia about for the prop:
-  // 'text|langlinks|categories|links|templates|images|
-  //  externallinks|sections|revid|displaytitle|iwlinks|properties'
-
-  
+function fetchIntroData(text){
   var mwjs = new MediaWikiJS('https://en.wikipedia.org');
 
   mwjs.send({action: 'parse', page: text, section: "0", prop: 'text'},
@@ -119,6 +114,16 @@ function fetchData(text, callback) {
       document.getElementById("introduction").innerHTML = trimmedText;
     }
   );
+}
+
+// call Wiki API to fetch data
+function fetchSeeAlsoData(text, callback) {
+  // These are all the different things we can ask wikipedia about for the prop:
+  // 'text|langlinks|categories|links|templates|images|
+  //  externallinks|sections|revid|displaytitle|iwlinks|properties'
+
+  
+  var mwjs = new MediaWikiJS('https://en.wikipedia.org');
   
   mwjs.send({action: 'parse', page: text, prop: 'sections'},
     function (data) {
@@ -360,6 +365,12 @@ function paintNetwork(newNodes){
 
     document.getElementById("pageSearch").value = "";
 
+    var text = d3.select(this).text();
+
+    // fect the data of wikipedia
+    fetchIntroData(text);
+
+    // fetch the data of see also words
     if(sourceIndexArray.indexOf(d.index) != -1){
       // this node is one of the source nodes
       // do nothing
@@ -373,8 +384,7 @@ function paintNetwork(newNodes){
       // console.log(this.parentNode);
       // console.log(this.parentNode.children);
 
-      // d3.selectAll(this.parentNode.children).remove();
-      fetchData(d3.select(this).text(), redraw);
+      fetchSeeAlsoData(text, redraw);
     }
   }
 }
