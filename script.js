@@ -124,7 +124,10 @@ function fetchIntroData(text){
         document.getElementById("introTitle").innerHTML = displayText;
         // show introduction
         document.getElementById("introduction").innerHTML = trimmedText;
+        document.getElementById("webIcon").innerHTML = "<img src=\"images/web.png\">";
         document.getElementById("wikiLink").innerHTML = "<a href=\"https://en.wikipedia.org/wiki/"+ text +"\" target=\"_blank\">Read on WikiPedia</a>";
+        document.getElementById("addIcon").innerHTML = "<img src=\"images/add.png\">";
+        document.getElementById("addLib").innerHTML = "<a  data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\" >Add to Library</a>"
       }else{
 
         document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!Try another one!';

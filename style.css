@@ -99,6 +99,24 @@ body {
   width: 95%;
   height: 280px;
   margin: auto;
+  margin-left: initial;
+}
+
+.lib_btn img{
+  height: 20px;
+  width: 20px;
+}
+
+.icon{
+  color: rgb(100,100,100);
+  padding-left: 0px;
+}
+
+#wikiLink{
+  color: rgb(100,100,100);
+  position: static;
+  margin-left: 0px;
+  padding-top: 2.5px;
 }
 
 .savebtn{
