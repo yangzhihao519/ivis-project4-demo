@@ -113,6 +113,7 @@ function fetchIntroData(text){
         
         // Fix so all links redirect to wikipedia correctly
         trimmedText = trimmedText.replace(/href="/g,'href="https://en.wikipedia.org');
+        trimmedText = trimmedText.replace(/\/\/upload/g, "https://upload");
         
         // Replace this line with a call to a function that
         // updates the "introduction info"-window
@@ -390,7 +391,7 @@ function paintNetwork(newNodes){
 
     document.getElementById("pageSearch").value = "";
     document.getElementById("space").innerHTML = "";
-    
+
     var text = d3.select(this).text();
 
     // fect the data of wikipedia
