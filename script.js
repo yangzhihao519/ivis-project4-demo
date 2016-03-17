@@ -119,7 +119,7 @@ function fetchIntroData(text){
         // show introduction
         document.getElementById("introduction").innerHTML = trimmedText;
       }else{
-        document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!';
+        document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!Try another one!';
 
         // empty title
         document.getElementById("introTitle").innerHTML = "";
