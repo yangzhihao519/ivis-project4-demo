@@ -113,6 +113,7 @@ function fetchIntroData(text){
         
         // Fix so all links redirect to wikipedia correctly
         trimmedText = trimmedText.replace(/href="/g,'href="https://en.wikipedia.org');
+        trimmedText = trimmedText.replace(/\/\/upload/g, "https://upload");
         
         // Replace this line with a call to a function that
         // updates the "introduction info"-window
@@ -124,10 +125,13 @@ function fetchIntroData(text){
         document.getElementById("introTitle").innerHTML = displayText;
         // show introduction
         document.getElementById("introduction").innerHTML = trimmedText;
+
         document.getElementById("webIcon").innerHTML = "<img src=\"images/web.png\">";
         document.getElementById("wikiLink").innerHTML = "<a href=\"https://en.wikipedia.org/wiki/"+ text +"\" target=\"_blank\">Read on WikiPedia</a>";
         document.getElementById("addIcon").innerHTML = "<img src=\"images/add.png\">";
-        document.getElementById("addLib").innerHTML = "<a  data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\" >Add to Library</a>"
+        document.getElementById("addLib").innerHTML = "<a  data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\" >Add to Library</a>";        
+        document.getElementById("webIcon").style.visibility = "visible";
+
       }else{
 
         document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!Try another one!';
@@ -136,6 +140,10 @@ function fetchIntroData(text){
         document.getElementById("introTitle").innerHTML = "";
         // empty introduction
         document.getElementById("introduction").innerHTML = "";
+
+        document.getElementById("wikiLink").innerHTML = "";
+
+        document.getElementById("webIcon").style.visibility = "hidden";;
       }
     }
   );
@@ -283,7 +291,7 @@ function paintNetwork(newNodes){
   force.nodes(nodes)
   .links(links)
   .charge(-1000)
-  .linkDistance(30)
+  .linkDistance(80)
   .start();
 
   var link = container.selectAll(".link")
@@ -393,7 +401,7 @@ function paintNetwork(newNodes){
 
     document.getElementById("pageSearch").value = "";
     document.getElementById("space").innerHTML = "";
-    
+
     var text = d3.select(this).text();
 
     // fect the data of wikipedia
