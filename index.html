@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="bootstrap.vertical-tabs.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <link href='https://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
@@ -19,8 +19,11 @@
     <style type="text/css">
     body{
           background-image:url(images/background.png);
-          background-size: 100%, 100%;
-          margin-left: 15px;
+          /*background-size: 100%, auto;*/
+          background-size: 700px,auto;
+          top: 0;
+          left: 0;
+          /*margin-left: 15px;*/
       }
     </style>
 
@@ -56,40 +59,50 @@
       </div><!-- /.col-lg-6 -->
     </div>
 
+    <!-- Side Bar -->
+    <div class="col-md-2 searchSidebar" id="sideBar"> <!-- required for floating -->
+        <ul class="nav nav-tabs tabs-left"><!-- 'tabs-right' for right tabs -->
+          <li class="active"><a href="#home" data-toggle="tab" id="searchIcon"><img src="images/tool.png"><!-- <span class="glyphicon glyphicon-search" aria-hidden="true"></span> --></a></li>
+          <li><a href="#profile" data-toggle="tab" id="seeMyLibraryButton" onclick="makeLibrary()" ><img src="images/book.png"><!-- <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> --></a></li>
+        </ul>  
+    </div>
+
     <!-- Detail Page -->
-    <div id="searchpg">
-      <div class="col-md-5" id="searchSidebar">
-      <!--   <h1> WikiPedro </h1> -->
+    <div class="col-md-10" id="searchpg">
+      <div class="col-md-5" id="searchSidebar1">
         <div class="WikiPedroLogo"><span style="color:rgb(98,98,98)">Wiki</span><span style="color:#FD6721">Pedro</span></div>
-          <div class="input-group" id="inputField">
+          <!-- <div class="input-group" id="inputField">
             <input type="text"  class="form-control" name="Field" id="pageSearch" onkeypress="return searchCheck(event)" >
             <div class="input-group-btn">
             <button type="button" class="btn btn-default" onclick="makeGraph()" id="searchButton">Fetch</button>
             </div>
-          </div>
+          </div> -->
           <p id="space"></p>
           <p id="space2"></p>
           <br/>
-          <!-- <h4 id="introTitle"></h4> -->
-          <div class="intro panel panel-warning">
+
+          <div class="intro">
+            <h3 class="panel-title" id="introTitle">Name</h3>
+            <p id="introduction">Introduction</p>
+          </div>
+          
+         <!--  <div class="intro panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title" id="introTitle">Name</h3>
             </div>
             <div class="panel-body">
               <p id="introduction">Introduction</p>
             </div>
-          </div>
-          
+          </div> -->
           <br/>
-        <!--   <button type="button" class="btn btn-default">Add to library</button> -->
           
         <div class="row lib_btn">
-         <div class="col-md-12">
+         <!-- <div class="col-md-7">
             <br/> <br/>
               <button type="button" class="btn btn-default" id="seeMyLibraryButton" onclick="makeLibrary()" >See My Library<span class="
 glyphicon glyphicon-chevron-right"></span></button>
             <br/> <br/>
-          </div>
+          </div> -->
           <div class="col-md-12">
             <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
               Add to library
@@ -111,8 +124,19 @@ glyphicon glyphicon-chevron-right"></span></button>
         </div>  
       </div>
 
-      <div class="col-md-7" id="displayGraph">
+      <div class="col-md-5" id="GraphBox">
+        <div class="row">
+          <div class="input-group" id="inputField">
+            <input type="text"  class="form-control" name="Field" id="pageSearch" onkeypress="return searchCheck(event)" >
+            <div class="input-group-btn">
+            <button type="button" class="btn btn-default" onclick="makeGraph()" id="searchButton">Fetch</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="displayGraph"></div>
+       </div>
       </div>
+      
     </div>
 
     <!-- Library Page -->
@@ -139,24 +163,35 @@ $(document).ready(function(){
   // Homepage
   $("#searchpg").hide();
   $("#librarypg").hide();
+  $("#sideBar").hide();
 
   //Detail Page
   $("#searchButton").click(function(){
     $("#homepg").hide();
     $("#searchpg").show();
     $("#librarypg").hide();
+    $("#sideBar").show();
+  });
+
+  $("#searchIcon").click(function(){
+    $("#homepg").hide();
+    $("#searchpg").show();
+    $("#librarypg").hide();
+    $("#sideBar").show();
   });
 
   $("#seeMyLibraryButton").click(function(){
     $("#homepg").hide();
     $("#searchpg").hide();
     $("#librarypg").show();
+    $("#sideBar").show();
   });
 
   $("#backToDetailPageButton").click(function(){
     $("#homepg").hide();
     $("#searchpg").show();
     $("#librarypg").hide();
+    $("#sideBar").show();
   });
 
 });
