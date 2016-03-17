@@ -86,7 +86,7 @@ function makeGraph(){
 }
 
 // call Wiki API to fetch data
-function fetchData(text, callback) {
+function fetchIntroData(text) {
   // These are all the different things we can ask wikipedia about for the prop:
   // 'text|langlinks|categories|links|templates|images|
   //  externallinks|sections|revid|displaytitle|iwlinks|properties'
