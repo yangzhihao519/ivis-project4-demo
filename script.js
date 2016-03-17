@@ -125,7 +125,10 @@ function fetchIntroData(text){
         document.getElementById("introTitle").innerHTML = displayText;
         // show introduction
         document.getElementById("introduction").innerHTML = trimmedText;
+
         document.getElementById("wikiLink").innerHTML = "<a href=\"https://en.wikipedia.org/wiki/"+ text +"\" target=\"_blank\">Read on WikiPedia</a>";
+        
+        document.getElementById("webIcon").style.visibility = "visible";;
       }else{
 
         document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!Try another one!';
@@ -134,6 +137,10 @@ function fetchIntroData(text){
         document.getElementById("introTitle").innerHTML = "";
         // empty introduction
         document.getElementById("introduction").innerHTML = "";
+
+        document.getElementById("wikiLink").innerHTML = "";
+
+        document.getElementById("webIcon").style.visibility = "hidden";;
       }
     }
   );
@@ -281,7 +288,7 @@ function paintNetwork(newNodes){
   force.nodes(nodes)
   .links(links)
   .charge(-1000)
-  .linkDistance(30)
+  .linkDistance(80)
   .start();
 
   var link = container.selectAll(".link")
