@@ -112,18 +112,15 @@ function fetchIntroData(text){
         // Capitalise the first letter
         var displayText = text;
         displayText = displayText.charAt(0).toUpperCase() + displayText.slice(1);
-
         // show title
         document.getElementById("introTitle").innerHTML = displayText;
-
         // show introduction
         document.getElementById("introduction").innerHTML = trimmedText;
+        document.getElementById("wikiLink").innerHTML = "<a href=\"https://en.wikipedia.org/wiki/"+ text +"\" target=\"_blank\">Read on WikiPedia</a>";
       }else{
         document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!';
-
         // empty title
         document.getElementById("introTitle").innerHTML = "";
-
         // empty introduction
         document.getElementById("introduction").innerHTML = "";
       }
@@ -145,7 +142,7 @@ function fetchSeeAlsoData(text, callback) {
       var see_also_index = 'Not found';   // Set default value
       var see_also_byteoffset = 0;      // Set default value
       var pageid = 'null';          // Set default value
-      
+
       if(data.parse){
         var sections_array = data.parse.sections;
 
