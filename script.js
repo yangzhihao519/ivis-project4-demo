@@ -118,7 +118,9 @@ function fetchIntroData(text){
         document.getElementById("introduction").innerHTML = trimmedText;
         document.getElementById("wikiLink").innerHTML = "<a href=\"https://en.wikipedia.org/wiki/"+ text +"\" target=\"_blank\">Read on WikiPedia</a>";
       }else{
-        document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!';
+
+        document.getElementById("space").innerHTML = "\"" + text + "\"" + ' is not found in wikipedia!Try another one!';
+
         // empty title
         document.getElementById("introTitle").innerHTML = "";
         // empty introduction

@@ -40,9 +40,16 @@ body {
 
 .intro{
   width: 95%;
-  height: 280px;
+  height: auto;
+  max-height: 400px;
   overflow: overlay;
   margin: auto;
+}
+
+#introTitle{
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 #introduction{
@@ -53,9 +60,8 @@ body {
 .WikiPedroLogo{
   font-family: 'Crete Round', serif;
   font-size: 35px;
-  text-align: center;
+  text-align: -webkit-center;
   padding-top: 20px;
-  padding-left: 20px;
   padding-bottom: 30px;
 }
 
@@ -79,7 +85,8 @@ body {
 #searchSidebar1{
   position: relative;
   /* position: absolute; */
-  background-color: rgba(185,122,87,0.5);
+  /*background-color: rgba(185,122,87,0.5);*/
+  background-color: rgba(128,128,128,0.3);
   /*height: 100%;*/
   width: 35%;
   height: 700px;
@@ -99,6 +106,14 @@ body {
 #GraphBox{
   width: 50%;
   height: 700px;
+  padding-left: 20px
+}
+
+#GraphBox p{
+  padding-left: 20px;
+  font-size: 15px;
+  font-style: italic;
+  color: #FD6721;
 }
 
 #displayGraph{
