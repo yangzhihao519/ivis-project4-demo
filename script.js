@@ -3,7 +3,7 @@ var width = 900,
 height = window.innerHeight;
 
 var zoom = d3.behavior.zoom()
-              .scaleExtent([0.5, 10])
+              .scaleExtent([0.1, 10])
               .on("zoom", zoomed);
 
 var drag = d3.behavior.drag()
@@ -272,6 +272,7 @@ function paintNetwork(newNodes){
 
   force.nodes(nodes)
   .links(links)
+  .charge(-1000)
   .linkDistance(150)
   .start();
 
