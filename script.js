@@ -423,14 +423,15 @@ function paintNetwork(newNodes){
 
     // fect the data of wikipedia
     fetchIntroData(text);
-
+    sourceIndex = d.index;
+    
     // fetch the data of see also words
     if(sourceIndexArray.indexOf(d.index) != -1){
       // this node is one of the source nodes
       // do nothing
     }else{
       // fetch data only for lead node
-      sourceIndex = d.index;
+      
       sourceIndexArray.push(sourceIndex);
       
       // console.log("this.parentNode.children");
