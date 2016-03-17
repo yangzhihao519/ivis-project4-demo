@@ -36,6 +36,14 @@ var infovisCetagory = {"name": "Information Visualization", "children": []};
 
 var library = {"name": "", "children": [defaultCategory, infovisCetagory]};
 
+// Attributes
+var srcNodeClr = "#DE6F06";
+var lineClr = "cccccc";
+var chldNodeClr = "#FF9814";
+// var HLstrokeClr = "#5C2700";
+var HLstrokeClr = "rgba(92,39,0,0.6)";
+
+
 // functions
 function makeGraph(){
   var text = document.getElementById("pageSearch").value;
@@ -281,7 +289,8 @@ function paintNetwork(newNodes){
                 .attr("class", "link")
                 // .style("stroke-width", function(d) { return Math.sqrt(d.weight); })
                 .style("stroke-width", function(d) { return 2*Math.sqrt(d.weight); })
-                .style("stroke", "#cccccc");
+                .style("stroke", lineClr);
+
 
 
   var node = container.selectAll(".node")
@@ -293,7 +302,7 @@ function paintNetwork(newNodes){
   node.append("circle")
       .attr("class", function(d){return d.source === true ? "source" : null})
       .attr("fill", function(d){
-        return sourceIndexArray.indexOf(d.index) != -1 ? "#DE6F06" : "#FF9814";
+        return sourceIndexArray.indexOf(d.index) != -1 ? srcNodeClr : chldNodeClr;
       })
       .attr("r",function(d){
         return sourceIndexArray.indexOf(d.index) != -1 ? 15 : 8;
@@ -334,7 +343,7 @@ function paintNetwork(newNodes){
 
     var l = svg.selectAll(".link");
     l.style("stroke", function(o) {
-      return o.source.index == d.index || o.target.index == d.index ? "#5C2700" : "#FF9814";
+      return o.source.index == d.index || o.target.index == d.index ? HLstrokeClr : lineClr;
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
@@ -344,7 +353,7 @@ function paintNetwork(newNodes){
 
     var c = svg.selectAll('circle');
     c.style("stroke", function(o) {
-      return isConnected(d, o) ? "#5C2700" : "#FF9814";
+      return isConnected(d, o) ? HLstrokeClr : chldNodeClr;
     })
     .style("stroke-width", function(o) { 
       // var weight = Math.sqrt(d.weight);
@@ -363,11 +372,11 @@ function paintNetwork(newNodes){
     });
 
     var l = svg.selectAll(".link");
-    l.style("stroke", "#cccccc")
+    l.style("stroke", lineClr )
     .style("stroke-width", function(o) { return 2*Math.sqrt(o.weight); })
 
     var c = svg.selectAll('circle');
-    c.style("stroke", "#FF9814")
+    c.style("stroke", chldNodeClr)
     .style("stroke-width", 0);
   }
 
