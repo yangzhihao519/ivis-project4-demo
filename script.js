@@ -31,10 +31,24 @@ var nodes = [];
 var links = [];
 var linkedByIndex = {};
 
-var defaultCategory = {"name": "Default", "children": []};
-var infovisCetagory = {"name": "Information Visualization", "children": []};
+//var defaultCategory = {"name": "Default", "children": []};
+//var infovisCetagory = {"name": "Information Visualization", "children": []};
 
-var library = {"name": "", "children": [defaultCategory, infovisCetagory]};
+//var library = {"name": "", "children": [defaultCategory, infovisCetagory]};
+
+// get library from cookie
+var library = {"name": "", "children": []};
+// var libraryCookies = Cookies.get('library');
+
+// console.log("library");
+// console.log(library);
+
+// if (libraryCookies) {
+//   library = JSON.parse(libraryCookies);
+// }else{
+//   // create new library
+//   Cookies.set('library', JSON.stringify(library));
+// }
 
 // Attributes
 var srcNodeClr = "#DE6F06";
@@ -533,27 +547,71 @@ function makeLibrary(){
   }
 }
 
+// categories is array of added categories
+var categories = [];
+var categoriesCookies = Cookies.get("categories");
+if(categoriesCookies){
+  // do nothing
+  categoriesCookies = JSON.parse(categoriesCookies);
+  for(var key in categoriesCookies.array){
+    categories.push(categoriesCookies.array[key]);
+  }
+  // console.log("categories");
+  // console.log(categories);
+}else{
+  Cookies.set('categories',JSON.stringify({'array': categories}));
+}
+
+// init the view
+for(key in categories){
+  $("#categoryForm").append('<input type="radio" name="category" value="' + categories[key] + '"> ' + categories[key] + '<br>');
+}
+$("#categoryForm").append("<input type=\"radio\" name=\"category\" value=\"Other\" id=\"otherCategory\">Other: <input type=\"text\" id=\"newCategory\"><br>");
+
 
 function addToLibrary(){
-  var category = $('input[name=category]:checked', "#categoryForm").val();
+  var chosenCategory = $('input[name=category]:checked', "#categoryForm").val();
 
-  if(category === "Other"){
-    category = $("#chooseCategory").val();
-    var newCategory = {"name": category, "children": []};
-    library.children.push(newCategory);
-    $("#categoryForm").append('<input type="radio" name="category" value="' + category + '"> ' + category + '<br>');
-  };
+  if(chosenCategory === "Other"){
+    // put the new category into the array and save to cookies
+    chosenCategory = $("#newCategory").val();
+    categories.push(chosenCategory);
+    Cookies.set('categories', JSON.stringify({'array': categories}));
+
+    // create a new category and push to library
+    var newCategoryObject = {"name": chosenCategory, "children": []};
+    library.children.push(newCategoryObject);
+
+    // $("#otherCategory").remove();
+    // $("#chooseCategory").val("");
+    // $("#categoryForm").append('<input type="radio" name="category" value="' + category + '"> ' + category + '<br>');
+    
+    // update the view
+    $("#categoryForm").empty();
+    for(key in categories){
+        $("#categoryForm").append('<input type="radio" name="category" value="' + categories[key] + '"> ' + categories[key] + '<br>');
+      }
+      $("#categoryForm").append("<input type=\"radio\" name=\"category\" value=\"Other\" id=\"otherCategory\">Other: <input type=\"text\" id=\"newCategory\"><br>");
+  }else{
+    // do nothing
+  }
 
   var libraryObject = {"name": nodes[sourceIndex].name, "size": nodes[sourceIndex].weight};
   //library.children.push(libraryObject);
 
   var libraryCategory = library.children.find(function(d){
-    return d.name === category;
+    return d.name === chosenCategory;
   });
-  if(!libraryCategory.children){libraryCategory["children"] = []};
-  libraryCategory.children.push(libraryObject);
 
-  
+  if(!libraryCategory.children){
+    libraryCategory["children"] = [];
+  }
+  else{
+    // do nothing
+  }
+
+  libraryCategory.children.push(libraryObject);
+  //Cookies.set('library', JSON.stringify(library));
   //console.log(libraryObject);
 
 }
