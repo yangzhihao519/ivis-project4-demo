@@ -158,7 +158,7 @@ function fetchIntroData(text){
         document.getElementById("wikiLink").innerHTML = "";
         document.getElementById("webIcon").innerHTML = "";
         document.getElementById("addIcon").innerHTML = "";
-        document.getElementById("addLib").innerHTML = "";a
+        document.getElementById("addLib").innerHTML = "";
 
         //document.getElementById("webIcon").style.visibility = "hidden";;
       }
@@ -556,18 +556,18 @@ function makeLibrary(){
 
 // categories is array of added categories
 var categories = [];
-var categoriesCookies = Cookies.get("categories");
-if(categoriesCookies){
-  // do nothing
-  categoriesCookies = JSON.parse(categoriesCookies);
-  for(var key in categoriesCookies.array){
-    categories.push(categoriesCookies.array[key]);
-  }
-  // console.log("categories");
-  // console.log(categories);
-}else{
-  Cookies.set('categories',JSON.stringify({'array': categories}));
-}
+// var categoriesCookies = Cookies.get("categories");
+// if(categoriesCookies){
+//   // do nothing
+//   categoriesCookies = JSON.parse(categoriesCookies);
+//   for(var key in categoriesCookies.array){
+//     categories.push(categoriesCookies.array[key]);
+//   }
+//   // console.log("categories");
+//   // console.log(categories);
+// }else{
+//   Cookies.set('categories',JSON.stringify({'array': categories}));
+// }
 
 // init the view
 for(key in categories){
@@ -583,7 +583,7 @@ function addToLibrary(){
     // put the new category into the array and save to cookies
     chosenCategory = $("#newCategory").val();
     categories.push(chosenCategory);
-    Cookies.set('categories', JSON.stringify({'array': categories}));
+    // Cookies.set('categories', JSON.stringify({'array': categories}));
 
     // create a new category and push to library
     var newCategoryObject = {"name": chosenCategory, "children": []};
