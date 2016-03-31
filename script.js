@@ -545,7 +545,7 @@ function makeLibrary(){
     t.selectAll("text")
     .attr("x", function(d) { return x(d.x); })
     .attr("y", function(d) { return y(d.y); })
-    .style("font-size","15px")
+    // .style("font-size","15px")
     .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
 
     node = d;
