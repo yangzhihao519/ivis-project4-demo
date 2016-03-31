@@ -521,7 +521,7 @@ function makeLibrary(){
   .attr("y", function(d) { return d.y; })
   .attr("dy", ".35em")
   .style("color","gray")
-  .style("font-size","25px")
+  // .style("font-size","25px")
   .attr("text-anchor", "start")
   .style("opacity", function(d) { return d.r > 20 ? 1 : 0; })
   .text(function(d) { return d.name; });

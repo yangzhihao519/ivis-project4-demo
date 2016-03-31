@@ -221,7 +221,8 @@ text.parent {
 }
 
 text.child{
-  fill:#9193A7;
+ /* fill:#9193A7;*/
+  fill: rgb(90,90,90);
   font-size: 15px;
 }
 
@@ -240,8 +241,9 @@ circle.parent {
 }
 
 circle.parent:hover {
-  stroke: #ff7f0e;
-  stroke-width: .5px;
+ /* stroke: #ff7f0e;*/
+  stroke: rgba(92,39,0,0.4);
+  stroke-width: 2.5px;
 }
 
 circle.child {
