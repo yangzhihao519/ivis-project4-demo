@@ -4,6 +4,10 @@ body {
   font-family: 'Arial', Verdana, sans-serif;
 }
 
+text{
+  font-size: 15px;
+}
+
 a{
   color: rgb(98,98,98);
   target: "_blank";
@@ -97,6 +101,7 @@ a{
   background-color: rgba(128,128,128,0.3);
   /*height: 100%;*/
   width: 35%;
+  min-height: 800px;
   height: 100%;
 }
 
@@ -214,36 +219,34 @@ text {
   color: #5C2700;
 }
 
-text.parent {
-  /*fill: #1f77b4;*/
-  fill: #764B2A;
-  font-size: 25px;
-}
+/*Library*/
+#librarypg text.parent {
+      fill: #764B2A;
+      font-size: 25px;
+    }
 
-text.child{
-  fill:#9193A7;
+#librarypg text.child{
+ /* fill:#9193A7;*/
+  fill: rgb(90,90,90);
   font-size: 15px;
 }
 
-circle {
-  /*r:8;*/
-  /*fill: #FF9814;*/
- /* stroke: #FFCF9E;
-  stroke-width:5px;*/
-  pointer-events: all;
-}
+#librarypg circle {
+      fill: #FBF5F5;
+      fill-opacity: 0.7;
+      pointer-events: all;
+    }
 
-circle.parent {
-  fill: #1f77b4;
-  fill-opacity: .1;
-  /*stroke: steelblue;*/
-}
+#librarypg circle.parent {
+      fill: #DE6F06;
+      fill-opacity: 0.3;
+    }
 
-circle.parent:hover {
-  stroke: #ff7f0e;
-  stroke-width: .5px;
-}
+#librarypg circle.parent:hover {
+     stroke: rgba(92,39,0,0.4);
+     stroke-width: 2.5px;
+    }
 
-circle.child {
-  pointer-events: none;
-}
+#librarypg circle.child {
+      pointer-events: none;
+    }

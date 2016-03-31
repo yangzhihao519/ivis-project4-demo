@@ -525,7 +525,7 @@ function makeLibrary(){
   .attr("y", function(d) { return d.y; })
   .attr("dy", ".35em")
   .style("color","gray")
-  .style("font-size","25px")
+  // .style("font-size","25px")
   .attr("text-anchor", "start")
   .style("opacity", function(d) { return d.r > 20 ? 1 : 0; })
   .text(function(d) { return d.name; });
@@ -549,7 +549,7 @@ function makeLibrary(){
     t.selectAll("text")
     .attr("x", function(d) { return x(d.x); })
     .attr("y", function(d) { return y(d.y); })
-    .style("font-size","15px")
+    // .style("font-size","15px")
     .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
 
     node = d;
