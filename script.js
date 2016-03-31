@@ -1,6 +1,9 @@
 // init 
-var width = 800,
+var width = window.innerWidth/3*2,
 height = window.innerHeight;
+console.log(width);
+console.log(height);
+
 
 var zoom = d3.behavior.zoom()
               .scaleExtent([0.1, 10])
