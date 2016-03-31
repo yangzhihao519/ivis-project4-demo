@@ -18,13 +18,36 @@
 
     <style type="text/css">
     body{
-          background-image:url(images/background.png);
-          /*background-size: 100%, auto;*/
-          background-size: 700px,auto;
-          top: 0;
-          left: 0;
-          /*margin-left: 15px;*/
-      }
+      background-image:url(images/background.png);
+      background-size: 100%, 100%;
+      margin-left: 15px;
+    }
+    
+    #librarypg text.parent {
+      fill: #1f77b4;
+      font-size: 15px;
+    }
+
+    #librarypg circle {
+      fill: #FBF5F5;
+      fill-opacity: 0.7;
+      pointer-events: all;
+    }
+
+    #librarypg circle.parent {
+      fill: #DE6F06;
+      fill-opacity: 0.3;
+    }
+
+    #librarypg circle.parent:hover {
+      /*stroke: #ff7f0e;*/
+      /*stroke-width: 1.5px;*/
+    }
+
+    #librarypg circle.child {
+      pointer-events: none;
+    }
+    
     </style>
 
     <script type="text/javascript">
@@ -71,33 +94,12 @@
     <div class="col-md-10" id="searchpg">
       <div class="col-md-5" id="searchSidebar1">
         <div class="WikiPedroLogo"><span style="color:rgb(98,98,98)">Wiki</span><span style="color:#FD6721">Pedro</span></div>
-          <!-- <div class="input-group" id="inputField">
-            <input type="text"  class="form-control" name="Field" id="pageSearch" onkeypress="return searchCheck(event)" >
-            <div class="input-group-btn">
-            <button type="button" class="btn btn-default" onclick="makeGraph()" id="searchButton">Fetch</button>
-            </div>
-          </div> -->
-
-          <!-- <p id="space"></p>
-          <p id="space2"></p>
-          <br/> -->
-
           <div class="intro">
             <h3 class="panel-title" id="introTitle">Name</h3>
             <p id="introduction">Introduction</p>
           </div>
-          
-         <!--  <div class="intro panel panel-warning">
-            <div class="panel-heading">
-              <h3 class="panel-title" id="introTitle">Name</h3>
-            </div>
-            <div class="panel-body">
-              <p id="introduction">Introduction</p>
-            </div>
-          </div> -->
           <br/>
           
-
         <div class="row lib_btn">
           <div class="col-md-12">
             <div class="col-md-1 icon" id="webIcon"></div>
@@ -113,9 +115,13 @@
             <div class="collapse" id="collapseExample">
               <div class="well">
                 <form id="categoryForm">
+
                   <input type="radio" name="category" value="Default" aria-label="..."> Default <br>
                   <input type="radio" name="category" value="Information Visualization" aria-label="..."> Information Visualization<br>
+                  <!-- <input type="radio" name="category" value="Other" id="otherCategory">Other: <input type="text" id="chooseCategory"><br> -->
+
                 </form>
+
                 <div class="savebtn">
                   <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="" onclick="addToLibrary()">
                    save
@@ -148,7 +154,6 @@
     <div id="librarypg">
       <div class="col-md-1">
         <br/>
-        <button type="button" class="btn btn-default" id="backToDetailPageButton">Back</button>
       </div>
       <div class="col-md-10" id="libraryGraph">
       </div>
@@ -205,6 +210,7 @@ $(document).ready(function(){
 <!-- Loading stuff -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="mediawiki-js-master/MediawikiJS.js"></script>
+<script src="js.cookie.js"></script>
 <script src="script.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

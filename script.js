@@ -31,10 +31,24 @@ var nodes = [];
 var links = [];
 var linkedByIndex = {};
 
-var defaultCategory = {"name": "Default", "children": []};
-var infovisCetagory = {"name": "Information Visualization", "children": []};
+//var defaultCategory = {"name": "Default", "children": []};
+//var infovisCetagory = {"name": "Information Visualization", "children": []};
 
-var library = {"name": "", "children": [defaultCategory, infovisCetagory]};
+//var library = {"name": "", "children": [defaultCategory, infovisCetagory]};
+
+// get library from cookie
+var library = {"name": "", "children": []};
+// var libraryCookies = Cookies.get('library');
+
+// console.log("library");
+// console.log(library);
+
+// if (libraryCookies) {
+//   library = JSON.parse(libraryCookies);
+// }else{
+//   // create new library
+//   Cookies.set('library', JSON.stringify(library));
+// }
 
 // Attributes
 var srcNodeClr = "#DE6F06";
@@ -130,7 +144,7 @@ function fetchIntroData(text){
         document.getElementById("wikiLink").innerHTML = "<a href=\"https://en.wikipedia.org/wiki/"+ text +"\" target=\"_blank\">Read on WikiPedia</a>";
         document.getElementById("addIcon").innerHTML = "<img src=\"images/add.png\">";
         document.getElementById("addLib").innerHTML = "<a  data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\" >Add to Library</a>";        
-        document.getElementById("webIcon").style.visibility = "visible";
+        //document.getElementById("webIcon").style.visibility = "visible";
 
       }else{
 
@@ -142,8 +156,11 @@ function fetchIntroData(text){
         document.getElementById("introduction").innerHTML = "";
 
         document.getElementById("wikiLink").innerHTML = "";
+        document.getElementById("webIcon").innerHTML = "";
+        document.getElementById("addIcon").innerHTML = "";
+        document.getElementById("addLib").innerHTML = "";a
 
-        document.getElementById("webIcon").style.visibility = "hidden";;
+        //document.getElementById("webIcon").style.visibility = "hidden";;
       }
     }
   );
@@ -464,7 +481,7 @@ function makeLibrary(){
 
   var w = width,
   h = height,
-  r = 720,
+  r = 560,
   x = d3.scale.linear().range([0, r]),
   y = d3.scale.linear().range([0, r]),
   node,
@@ -503,7 +520,9 @@ function makeLibrary(){
   .attr("x", function(d) { return d.x; })
   .attr("y", function(d) { return d.y; })
   .attr("dy", ".35em")
-  .attr("text-anchor", "middle")
+  .style("color","gray")
+  .style("font-size","25px")
+  .attr("text-anchor", "start")
   .style("opacity", function(d) { return d.r > 20 ? 1 : 0; })
   .text(function(d) { return d.name; });
 
@@ -526,6 +545,7 @@ function makeLibrary(){
     t.selectAll("text")
     .attr("x", function(d) { return x(d.x); })
     .attr("y", function(d) { return y(d.y); })
+    .style("font-size","15px")
     .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
 
     node = d;
@@ -533,19 +553,72 @@ function makeLibrary(){
   }
 }
 
+// categories is array of added categories
+var categories = [];
+var categoriesCookies = Cookies.get("categories");
+if(categoriesCookies){
+  // do nothing
+  categoriesCookies = JSON.parse(categoriesCookies);
+  for(var key in categoriesCookies.array){
+    categories.push(categoriesCookies.array[key]);
+  }
+  // console.log("categories");
+  // console.log(categories);
+}else{
+  Cookies.set('categories',JSON.stringify({'array': categories}));
+}
+
+// init the view
+for(key in categories){
+  $("#categoryForm").append('<input type="radio" name="category" value="' + categories[key] + '"> ' + categories[key] + '<br>');
+}
+$("#categoryForm").append("<input type=\"radio\" name=\"category\" value=\"Other\" id=\"otherCategory\">Other: <input type=\"text\" id=\"newCategory\"><br>");
+
 
 function addToLibrary(){
-  var category = $('input[name=category]:checked', "#categoryForm").val();
+  var chosenCategory = $('input[name=category]:checked', "#categoryForm").val();
+
+  if(chosenCategory === "Other"){
+    // put the new category into the array and save to cookies
+    chosenCategory = $("#newCategory").val();
+    categories.push(chosenCategory);
+    Cookies.set('categories', JSON.stringify({'array': categories}));
+
+    // create a new category and push to library
+    var newCategoryObject = {"name": chosenCategory, "children": []};
+    library.children.push(newCategoryObject);
+
+    // $("#otherCategory").remove();
+    // $("#chooseCategory").val("");
+    // $("#categoryForm").append('<input type="radio" name="category" value="' + category + '"> ' + category + '<br>');
+    
+    // update the view
+    $("#categoryForm").empty();
+    for(key in categories){
+        $("#categoryForm").append('<input type="radio" name="category" value="' + categories[key] + '"> ' + categories[key] + '<br>');
+      }
+      $("#categoryForm").append("<input type=\"radio\" name=\"category\" value=\"Other\" id=\"otherCategory\">Other: <input type=\"text\" id=\"newCategory\"><br>");
+  }else{
+    // do nothing
+  }
 
   var libraryObject = {"name": nodes[sourceIndex].name, "size": nodes[sourceIndex].weight};
   //library.children.push(libraryObject);
 
   var libraryCategory = library.children.find(function(d){
-    return d.name === category;
+    return d.name === chosenCategory;
   });
 
-  libraryCategory.children.push(libraryObject);
+  if(!libraryCategory.children){
+    libraryCategory["children"] = [];
+  }
+  else{
+    // do nothing
+  }
 
+  libraryCategory.children.push(libraryObject);
+  //Cookies.set('library', JSON.stringify(library));
+  //console.log(libraryObject);
 }
 
 
