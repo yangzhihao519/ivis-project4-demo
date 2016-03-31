@@ -6,6 +6,7 @@ body {
 
 a{
   color: rgb(98,98,98);
+  target: "_blank";
 }
 
 /*Home Page*/
@@ -96,7 +97,7 @@ a{
   background-color: rgba(128,128,128,0.3);
   /*height: 100%;*/
   width: 35%;
-  height: 750px;
+  height: 100%;
 }
 
 .lib_btn{
