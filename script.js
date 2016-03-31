@@ -477,6 +477,10 @@ function dragended(d) {
 
 function makeLibrary(){
 
+  if(categories.length === 0){
+    return;
+  }
+
   var knitting = {"name": "Knitting", "size": 10};
   var hello = {"name": "Hello", "size": 7};
   var france = {"name": "France", "size": 1};
