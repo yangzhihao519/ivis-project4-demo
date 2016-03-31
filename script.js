@@ -95,8 +95,8 @@ function makeGraph(){
   // var text = document.getElementById("pageSearch").value;
   fetchIntroData(text);
   fetchSeeAlsoData(text, redraw);
-  console.log(existedSvg);
-  console.log(existedSvg[0].childNodes);
+  // console.log(existedSvg);
+  // console.log(existedSvg[0].childNodes);
 }
 
 function fetchIntroData(text){
@@ -243,7 +243,7 @@ function redraw(newNodes, text){
     paintNetwork(newNodes);
     
   }else{
-    console.log("redraw null");
+   // console.log("redraw null");
 
     // remove the node index from sourceIndexArray
     for(key in sourceIndexArray){
