@@ -215,8 +215,14 @@ text {
 }
 
 text.parent {
-  fill: #1f77b4;
-  /*fill:#5C2700;*/
+  /*fill: #1f77b4;*/
+  fill: #764B2A;
+  font-size: 25px;
+}
+
+text.child{
+  fill:#9193A7;
+  font-size: 15px;
 }
 
 circle {
@@ -230,7 +236,7 @@ circle {
 circle.parent {
   fill: #1f77b4;
   fill-opacity: .1;
-  stroke: steelblue;
+  /*stroke: steelblue;*/
 }
 
 circle.parent:hover {
