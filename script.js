@@ -1,6 +1,9 @@
 // init 
-var width = 800,
+var width = window.innerWidth/3*2,
 height = window.innerHeight;
+console.log(width);
+console.log(height);
+
 
 var zoom = d3.behavior.zoom()
               .scaleExtent([0.1, 10])
@@ -158,7 +161,7 @@ function fetchIntroData(text){
         document.getElementById("wikiLink").innerHTML = "";
         document.getElementById("webIcon").innerHTML = "";
         document.getElementById("addIcon").innerHTML = "";
-        document.getElementById("addLib").innerHTML = "";a
+        document.getElementById("addLib").innerHTML = "";
 
         //document.getElementById("webIcon").style.visibility = "hidden";;
       }
@@ -423,14 +426,15 @@ function paintNetwork(newNodes){
 
     // fect the data of wikipedia
     fetchIntroData(text);
-
+    sourceIndex = d.index;
+    
     // fetch the data of see also words
     if(sourceIndexArray.indexOf(d.index) != -1){
       // this node is one of the source nodes
       // do nothing
     }else{
       // fetch data only for lead node
-      sourceIndex = d.index;
+      
       sourceIndexArray.push(sourceIndex);
       
       // console.log("this.parentNode.children");
@@ -555,18 +559,18 @@ function makeLibrary(){
 
 // categories is array of added categories
 var categories = [];
-var categoriesCookies = Cookies.get("categories");
-if(categoriesCookies){
-  // do nothing
-  categoriesCookies = JSON.parse(categoriesCookies);
-  for(var key in categoriesCookies.array){
-    categories.push(categoriesCookies.array[key]);
-  }
-  // console.log("categories");
-  // console.log(categories);
-}else{
-  Cookies.set('categories',JSON.stringify({'array': categories}));
-}
+// var categoriesCookies = Cookies.get("categories");
+// if(categoriesCookies){
+//   // do nothing
+//   categoriesCookies = JSON.parse(categoriesCookies);
+//   for(var key in categoriesCookies.array){
+//     categories.push(categoriesCookies.array[key]);
+//   }
+//   // console.log("categories");
+//   // console.log(categories);
+// }else{
+//   Cookies.set('categories',JSON.stringify({'array': categories}));
+// }
 
 // init the view
 for(key in categories){
@@ -582,7 +586,7 @@ function addToLibrary(){
     // put the new category into the array and save to cookies
     chosenCategory = $("#newCategory").val();
     categories.push(chosenCategory);
-    Cookies.set('categories', JSON.stringify({'array': categories}));
+    // Cookies.set('categories', JSON.stringify({'array': categories}));
 
     // create a new category and push to library
     var newCategoryObject = {"name": chosenCategory, "children": []};
