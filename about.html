@@ -1,0 +1,184 @@
+<! DOCTYPE html>
+<html>
+    <head>
+        <title>About Wikipedro</title>
+        <link type= "text/css" rel="stylesheet" href= "about.css" />
+    
+    </head>
+    
+    <body style="background-color:#444">
+        
+        <!-- <h1 id="wikipedro"> About <span>Wiki</span><span style="color: #fd6721">Pedro</span></h1> -->
+        <br><br>
+        <div class = "title">
+            <h1 ><span style="font-size:250%; font-family:Courier New;">Wiki</span><span style="font-size:250%; font-family:Courier New; color: #fd6721">Pedro</span></h1>
+            <p style="font-family:monospace;font-size:150%;color:dimgrey">- A new way to explore WikiPedia -</p>
+        </div><br><br>
+
+       <script language =javascript > 
+           var curIndex=0; 
+           var timeInterval=4000; 
+           var arr=new Array(); 
+           arr[0]="images/1.png"; 
+           arr[1]="images/2.png"; 
+           arr[2]="images/3.png"; 
+           setInterval(changeImg,timeInterval);
+           function changeImg() { 
+               var obj=document.getElementById("obj"); 
+                 if (curIndex==arr.length-1)  { 
+                    curIndex=0; 
+                 } 
+                 else  { 
+                    curIndex+=1; 
+                 } 
+               obj.src=arr[curIndex]; 
+           } 
+        </script> 
+        <div style="text-align:center">
+          <img style="border-radius:0px"id=obj src ="images/1.png" border =0 />  
+        </div>  
+        <br><br> 
+
+        <h3 class="subtitle" style="font-size:350%;font-family:Courier New";color=>About us</h3>
+    
+    <div class="introduction" style="display:inline-block"> 
+        <div  class="function">
+            <p>Multi-activity Wikipedia in an interactive and entertaining way is what WikiPedro brings to you.</p>
+            <p>We provide visualizing Wiki search results in a transparent format and making related articles visible immediately.You can also build your own graph libraries to Manage personal browsing preference perceptively, possibly save the results for later use and import local files to library.</p>
+            <p>WikiPedro is a web application that uses data from Wikipedia API and visualization by D3.js. </p>
+        </div>
+    
+        <div style="float:right" class="video"> 
+        
+            <iframe width="500" height="350"
+src="https://www.youtube.com/embed/xon03RVn1ZY" frameborder="0" allowfullscreen></iframe>
+
+        </div>
+            
+    </div>
+    <br><br><br><br><br><br><br><br><br>
+        
+        <div class="group">
+            
+            <div class="user" id="student">
+                <img src="images/student.jpg" style="width: 120px;border-radius: 0px;"/>
+                <h4>Students</h4>
+                <ul>
+                    <li>Home assignments</li>
+                    <li>Thesis</li>
+                    <li>Individual interest</li>
+                </ul>
+            </div>
+            
+            <div class="user" id="Researcher">
+                <img src="images/researcher.jpg" style="width: 120px;border-radius: 0px;"/>
+                <h4>Researchers</h4>
+                <ul>
+                    <li>Build knowledge-graphs</li>
+                    <li>Share their stored </li>
+                    <li>libraries</li>
+                </ul>
+            </div>
+            
+            <div class="user" id="wikipediauser">
+                <img src="images/wikiuser.jpg" style="width: 120px;border-radius: 0px;"/>
+                <h4>Wikipedia Users</h4>
+                <ul>
+                    <li>Explore new articles</li>
+                    <li>Find new topics</li>
+                    <li>Check browsing history</li>
+                </ul>
+            </div>
+        
+        
+        </div>
+        <br><br><br><br><br><br><br><br>
+        
+        
+    
+        <h3 class="subtitle" style="font-size:350%;font-family:Courier New";color=>Our Team</h3>
+        <br><br>
+        
+        <div class="teamInformation" >
+            <img src="images/Anton.jpg" style="width: 150px"/><br><br>
+            <h>Anton Form</h><br>
+           
+            <a href="mailto:afrom@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+            
+        </div>
+        
+        <div class="teamInformation" >
+            <img src="images/siyu.jpg" style="width: 150px"/><br><br>
+            <h>Siyu Du</h><br>
+             <a href="mailto:siyud@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+        </div>
+        
+        <div class="teamInformation" >
+            <img src="images/Zhihao.jpg" style="width: 150px"/><br><br>
+            <h>Zhihao Yang</h><br>
+            <a href="mailto:zhihaoy@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+        </div>
+        
+        <div class="teamInformation" >
+            <img src="images/Lilla.jpg" style="width: 150px"/><br><br>
+            <h>Lilla Szabó</h><br>
+           <a href="mailto:lillas@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+        </div><br>
+        <br>
+        
+        <div class="teamInformation" >
+            <img src="images/Aiman.jpg" style="width: 150px"/><br><br>
+            <h>Aiman Josefsson</h><br>
+            <a href="mailto:aiman@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+        </div>
+        
+        <div class="teamInformation" >
+            <img src="images/Yiwen.jpg" style="width: 150px"/><br><br>
+            <h>Yiwen Lu</h><br>
+            <a href="mailto:yiwenl@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+        </div>
+        
+        <div class="teamInformation" >
+            <img src="images/Marcus.jpg" style="width: 150px"/><br><br>
+            <h>Marcus Renström</h><br>
+            <a href="mailto:markusre@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+        </div>
+        
+        <div class="teamInformation" >
+            <img src="images/Jing.jpg" style="width: 150px"/><br><br>
+            <h>Jing Yang</h><br>
+            <a href="mailto:jiyang@kth.se">
+            <img class="emailicon"  src="images/emailicon.png" style="width:25px"/>
+            </a>
+        </div>
+        
+    </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
+    <footer>
+           <p>Copyright by WikiPedro 2016</p>
+    </footer>
+
+    </body>
+    
+</html>
+
+
+
+
+
+        

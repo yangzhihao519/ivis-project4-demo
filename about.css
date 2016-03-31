@@ -1,0 +1,113 @@
+body {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+}
+#wikipedro {
+    background-color:#ccc;
+    margin-top: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 80px;
+    padding-top: 15px;
+    font-family: 'Crete Round', serif;
+    font-size: 50px;
+    text-align: center;
+    color: #333;
+}
+
+.title {
+    text-align: center;
+    font-family: 'Crete Round', serif;
+}
+
+img {
+    border-radius: 100px;
+}
+
+.teamInformation {
+    display:inline-block;
+    width:220px;
+    height:220px;
+    border:hidden;
+    margin-right: 45px;
+    margin-left: 45px;
+    font-family:monospace;
+    font-size:20px;
+    color:dimgrey;
+    text-align: center;
+    
+}
+
+.function {
+    font-family:monospace;
+    font-size: 20px;
+    color:darkgrey;
+    
+    width: 600px;
+    height: 300px;
+    margin-left: 50px;
+    margin-right: 10px;
+    float: left;    
+}
+
+.subtitle {
+    margin-left: 50px;
+    color:coral;
+}
+
+
+
+.user {
+    display:inline-block;
+    width:250px;
+    height:260px;
+    border:hidden;
+    padding-left: 100px;
+    font-family: monospace;
+    color: dimgrey;
+    font-size: 16px;
+    margin-right: 10px; 
+    
+}
+
+.group {
+    width: 1090px;
+    height: 260px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+#student {
+    background-color:#d9ecf0 ;
+}
+#researcher{
+    background-color:#e5dff2;
+}
+#wikipediauser {
+    background-color: #e3e3e3;
+}
+h4 {
+    text-align:inherit;
+}
+
+ul {
+    padding-left: 0px;
+}
+
+footer {
+    background-color: #999;
+    font-family: serif;
+    font-size: 12px;
+    padding-top: 3px;
+    padding-bottom:3px; 
+    width: 100%;
+    text-align: center;
+    margin: auto
+}
+
+#obj {
+    width: 600px;
+    height: 320px;
+    text-align: center;
+}
